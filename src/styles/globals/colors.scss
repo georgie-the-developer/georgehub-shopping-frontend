@@ -1,0 +1,16 @@
+:root {
+  body {
+    --background-color: #ffffff;
+    --card-color: #f5f5f5;
+    --primary-text-color: #000000;
+    --secondary-text-color: #727272;
+    --mild-text-color: #b3b3b3;
+    &.dark-theme {
+      --background-color: #2c2c2c;
+      --card-color: #4f4f4f;
+      --primary-text-color: #ffffff;
+      --secondary-text-color: #cacaca;
+      --mild-text-color: #b3b3b3;
+    }
+  }
+}
