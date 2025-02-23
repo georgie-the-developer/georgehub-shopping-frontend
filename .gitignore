@@ -37,5 +37,5 @@ jspm_packages
 .node_repl_history
 .next
 
-# Informative custom files
-notes.txt
+# Internal files (e.g. notes, todos etc)
+internal
