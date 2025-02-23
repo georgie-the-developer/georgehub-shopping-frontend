@@ -1,0 +1,11 @@
+html {
+  box-sizing: border-box;
+  //For font accessibility
+  font-size: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
