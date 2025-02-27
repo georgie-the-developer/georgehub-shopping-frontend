@@ -1,0 +1,33 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background-color);
+  .iconContainer {
+    margin-left: 20px;
+    width: 80px;
+    height: 40px;
+    .icon {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+      color: var(--text-color);
+      cursor: pointer;
+    }
+  }
+  .linkContainer {
+    min-width: 200px;
+    margin-right: 20px;
+    .link {
+      font-size: 36px;
+      text-decoration: none;
+      color: var(--text-color);
+      cursor: pointer;
+    }
+  }
+}
