@@ -14,6 +14,7 @@ export default function Header() {
             </a>
             <div className={header.iconContainer}>
               <CartSvg/>
+              <span className={header.dot}></span>
             </div>
         </div>
     </div>
