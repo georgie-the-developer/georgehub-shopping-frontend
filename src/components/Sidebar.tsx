@@ -1,13 +1,13 @@
 import sidebar from "@/styles/modules/sidebar.module.scss";
 import CloseSvg from "/assets/icons/close.svg";
-export default function Sidebar() {
+export default function Sidebar({ closeSidebar }) {
   return (
     <div className={sidebar.container}>
-      <div className={sidebar.overflow}></div>
+      <div className={sidebar.overflow} onClick={closeSidebar}></div>
       <div className={sidebar.contents}>
         <div className={sidebar.headerContainer}>
           <div className={sidebar.header}>GeorgeHub Shopping</div>
-          <div className={sidebar.iconContainer}>
+          <div className={sidebar.iconContainer} onClick={closeSidebar}>
             <CloseSvg />
           </div>
         </div>
