@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Header openSidebar={openSidebar} />
-        {sidebarOpen && <Sidebar closeSidebar={closeSidebar}/>}
+        <Sidebar isOpen={sidebarOpen} closeSidebar={closeSidebar} />
         <div className="main">{children}</div>
       </body>
     </html>

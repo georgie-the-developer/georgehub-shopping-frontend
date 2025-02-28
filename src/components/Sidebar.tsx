@@ -1,8 +1,12 @@
 import sidebar from "@/styles/modules/sidebar.module.scss";
 import CloseSvg from "/assets/icons/close.svg";
-export default function Sidebar({ closeSidebar }) {
+export default function Sidebar({ isOpen, closeSidebar }) {
   return (
-    <div className={sidebar.container}>
+    <div
+      className={`${sidebar.container} ${
+        isOpen ? sidebar.open : sidebar.closed
+      }`}
+    >
       <div className={sidebar.overflow} onClick={closeSidebar}></div>
       <div className={sidebar.contents}>
         <div className={sidebar.headerContainer}>
