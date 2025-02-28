@@ -4,7 +4,16 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 99;
+  z-index: -1;
+  opacity: 0;
+  transition: 0.3s all ease-out;
+  &.open {
+    z-index: 99;
+    opacity: 1;
+    .contents {
+      transform: translateX(0);
+    }
+  }
   .overflow {
     position: inherit;
     top: inherit;
@@ -22,6 +31,8 @@
     width: 600px;
     z-index: 100;
     background-color: var(--background-color);
+    transform: translateX(-500px);
+    transition: 0.3s transform ease-in-out;
     .headerContainer {
       display: flex;
       justify-content: space-between;
