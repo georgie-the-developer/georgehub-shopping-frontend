@@ -1,5 +1,7 @@
+"use client";
 import sidebar from "@/styles/modules/sidebar.module.scss";
 import CloseSvg from "/assets/icons/close.svg";
+import SidebarLinks from "./SidebarLinks";
 export default function Sidebar({ isOpen, closeSidebar }) {
   return (
     <div
@@ -16,18 +18,7 @@ export default function Sidebar({ isOpen, closeSidebar }) {
           </div>
         </div>
         <div className={sidebar.linksContainer}>
-          <a href="#" className={`${sidebar.link} ${sidebar.active}`}>
-            Welcome
-          </a>
-          <a href="#" className={sidebar.link}>
-            Login
-          </a>
-          <a href="#" className={sidebar.link}>
-            Register
-          </a>
-          <a href="#" className={sidebar.link}>
-            Home (Browse only)
-          </a>
+          <SidebarLinks userRole={"guest"} />
         </div>
       </div>
     </div>
