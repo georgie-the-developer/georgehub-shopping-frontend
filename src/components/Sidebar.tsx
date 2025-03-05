@@ -1,8 +1,12 @@
 "use client";
 import sidebar from "@/styles/modules/sidebar.module.scss";
 import CloseSvg from "/assets/icons/close.svg";
+import MoonSvg from "/assets/icons/moon.svg";
+import SunSvg from "/assets/icons/sun.svg";
 import SidebarLinks from "./SidebarLinks";
+import { useTheme } from "@/contexts/ThemeContext";
 export default function Sidebar({ isOpen, closeSidebar }) {
+  const { toggleTheme, darkTheme } = useTheme();
   return (
     <div
       className={`${sidebar.container} ${
@@ -15,6 +19,11 @@ export default function Sidebar({ isOpen, closeSidebar }) {
           <div className={sidebar.header}>GeorgeHub Shopping</div>
           <div className={sidebar.iconContainer} onClick={closeSidebar}>
             <CloseSvg />
+          </div>
+        </div>
+        <div className={sidebar.themeToggleContainer}>
+          <div className={sidebar.themeIconContainer} onClick={toggleTheme}>
+            {darkTheme ? <SunSvg /> : <MoonSvg />}
           </div>
         </div>
         <div className={sidebar.linksContainer}>

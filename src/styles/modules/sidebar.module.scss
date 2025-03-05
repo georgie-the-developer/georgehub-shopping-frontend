@@ -59,13 +59,16 @@
       display: flex;
       justify-content: flex-end;
       height: 30px;
-      svg {
-        margin-right: 20px;
-        height: 100%;
+      .themeIconContainer {
         width: 30px;
-        cursor: pointer;
-        stroke: var(--primary-text-color);
-        stroke-width: 4px;
+        margin-right: 20px;
+        svg {
+          height: 100%;
+          width: 100%;
+          cursor: pointer;
+          stroke: var(--primary-text-color);
+          stroke-width: 4px;
+        }
       }
     }
     .linksContainer {
