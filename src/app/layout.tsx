@@ -1,6 +1,7 @@
 "use client";
 import "@/styles/globals/index.scss";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { SidebarProvider } from "@/contexts/SidebarContext";
 import Layout from "./(grouped)/layout";
 export default function RootLayout({
   children,
@@ -11,7 +12,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeProvider>
-          <Layout>{children}</Layout>
+          <SidebarProvider>
+            <Layout>{children}</Layout>
+          </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>
