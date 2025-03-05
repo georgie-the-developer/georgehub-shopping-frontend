@@ -2,6 +2,7 @@
 import "@/styles/globals/index.scss";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { SidebarProvider } from "@/contexts/SidebarContext";
+import { AlertProvider } from "@/contexts/AlertContext";
 import Layout from "./(grouped)/layout";
 export default function RootLayout({
   children,
@@ -12,9 +13,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeProvider>
-          <SidebarProvider>
-            <Layout>{children}</Layout>
-          </SidebarProvider>
+          <AlertProvider>
+            <SidebarProvider>
+              <Layout>{children}</Layout>
+            </SidebarProvider>
+          </AlertProvider>
         </ThemeProvider>
       </body>
     </html>
