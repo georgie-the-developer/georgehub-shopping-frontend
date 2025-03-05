@@ -10,9 +10,12 @@ html {
   box-sizing: inherit;
 }
 body {
-  background-color: var(--background-color);
-  color: var(--primary-text-color);
-  font-family: "Inter";
+  .body {
+    position: relative;
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
+    font-family: "Inter";
+  }
 }
 .main {
   margin-top: 10vh;
