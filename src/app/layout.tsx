@@ -1,23 +1,18 @@
 "use client";
 import "@/styles/globals/index.scss";
-import { useState } from "react";
-import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import Layout from "./(grouped)/layout";
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const openSidebar = () => setSidebarOpen(true);
-  const closeSidebar = () => setSidebarOpen(false);
-
   return (
     <html lang="en">
       <body>
-        <Header openSidebar={openSidebar} />
-        <Sidebar isOpen={sidebarOpen} closeSidebar={closeSidebar} />
-        <div className="main">{children}</div>
+        <ThemeProvider>
+          <Layout>{children}</Layout>
+        </ThemeProvider>
       </body>
     </html>
   );
