@@ -1,6 +1,6 @@
 "use client";
 import { useAlert } from "@/contexts/AlertContext";
-import CloseSvg from "/assets/icons/close.svg";
+import CloseSvg from "@/assets/icons/close.svg";
 import alertStyling from "@/styles/modules/alert.module.scss";
 export default function Alert() {
   const { alert, closeAlert } = useAlert();

@@ -1,8 +1,8 @@
 "use client";
 import sidebar from "@/styles/modules/sidebar.module.scss";
-import CloseSvg from "/assets/icons/close.svg";
-import MoonSvg from "/assets/icons/moon.svg";
-import SunSvg from "/assets/icons/sun.svg";
+import CloseSvg from "@/assets/icons/close.svg";
+import MoonSvg from "@/assets/icons/moon.svg";
+import SunSvg from "@/assets/icons/sun.svg";
 import SidebarLinks from "./SidebarLinks";
 import { useTheme } from "@/contexts/ThemeContext";
 export default function Sidebar({ isOpen, closeSidebar }) {
