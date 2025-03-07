@@ -1,0 +1,31 @@
+.button {
+  text-decoration: none;
+  display: block;
+  color: var(--primary-text-color);
+  font-size: 32px;
+  width: 270px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  transition: all 0.5s;
+}
+.primary {
+  background-color: var(--primary-text-color);
+  color: var(--background-color);
+  &:hover {
+    border: 1px solid var(--primary-text-color);
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
+  }
+}
+.secondary {
+  border: 1px solid var(--primary-text-color);
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
+  &:hover {
+    background-color: var(--primary-text-color);
+    color: var(--background-color);
+  }
+}
