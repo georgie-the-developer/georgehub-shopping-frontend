@@ -44,13 +44,6 @@ export default function SidebarLinks({ userRole }: SidebarLinkProps) {
           <NavLink title="Logout" route="/auth/logout" />
         </>
       )}
-
-      {/* This code structure is good, because:
-          - it has only one responsibility - display links based on userRole
-          string value (Single responsibility principle);
-          - it is easily extendable, while not modifiable (Open-closed principle);
-          - it is readable
-           */}
     </>
   );
 }
