@@ -1,0 +1,72 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid var(--primary-text-color);
+  border-radius: 8px;
+  padding: 30px 0;
+  // input styling
+  .inputContainer {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .label {
+      font-size: 24px;
+    }
+
+    .input[type="text"],
+    .input[type="number"],
+    .input[type="password"] {
+      width: 100%;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 20px;
+      border: 1px solid var(--primary-text-color);
+      background-color: var(--background-color);
+      color: var(--primary-text-color);
+    }
+  }
+  // link styling
+  .linkContainer {
+    width: 90%;
+    .link {
+      color: var(--primary-text-color);
+      font-size: 20px;
+      transition: color 0.5s;
+      &:hover {
+        color: var(--secondary-text-color);
+      }
+    }
+  }
+  // submit styling
+  .submitContainer {
+    .button {
+      font-size: 32px;
+      background-color: var(--primary-text-color);
+      color: var(--background-color);
+      border: 1px solid var(--primary-text-color);
+      width: 100%;
+      border-radius: 10px;
+      padding: 7px;
+      transition: all 0.5s;
+      &:hover {
+        background-color: var(--background-color);
+        color: var(--primary-text-color);
+        cursor: pointer;
+      }
+      &.disabeled {
+        &:hover {
+          background-color: var(--primary-text-color);
+          color: var(--background-color);
+          border: 1px solid var(--primary-text-color);
+        }
+        cursor: not-allowed;
+        opacity: 0.8;
+      }
+    }
+    width: 90%;
+  }
+}
