@@ -68,7 +68,7 @@ export function FormInput({
         id={name}
         name={name}
         placeholder={placeholder}
-        onChange={pattern && checkPattern}
+        onChange={checkPattern}
         required={required}
       />
       {formErrors[name] && (
