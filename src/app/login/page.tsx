@@ -3,6 +3,7 @@
 import { useState } from "react";
 // Components
 import * as Form from "@/components/form/Form";
+import ButtonLink from "@/components/buttons/ButtonLink";
 // Styling
 import login from "@/styles/modules/login.module.scss";
 
@@ -57,6 +58,10 @@ export default function Page() {
           <Form.FormSubmit value="Submit" />
           <Form.FormLink title="Forgot password?" link="/forgot-password" />
         </Form.Form>
+      </div>
+      <div className={login.textContainer}>Don't have an account yet?</div>
+      <div className={login.buttonLinkContainer}>
+        <ButtonLink link="register" text="Register" type="secondary" />
       </div>
     </div>
   );
