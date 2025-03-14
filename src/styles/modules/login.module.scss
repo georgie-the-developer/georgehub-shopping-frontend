@@ -45,4 +45,13 @@
       align-items: baseline;
     }
   }
+  .buttonFormContainer {
+    width: 90%;
+    display: flex;
+    justify-content: flex-end;
+    .buttonContainer {
+      width: auto;
+      font-size: 24px;
+    }
+  }
 }

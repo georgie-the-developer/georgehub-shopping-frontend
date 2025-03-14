@@ -2,9 +2,9 @@
 // Components
 import * as Form from "@/components/form/Form";
 import ButtonLink from "@/components/buttons/ButtonLink";
+//Navigation
 // Styling
 import register from "@/styles/modules/login.module.scss";
-
 interface LoginFormInput {
   username: string;
   password: string;
@@ -14,21 +14,11 @@ export default function Page() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const data = JSON.stringify(Object.fromEntries(formData));
-    console.log(data);
-    // let csrfToken = "";
-    // let response = await fetch("/someurl", {
-    //   method: "POST",
-    //   credentials: "include",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "X-CSRFToken": csrfToken,
-    //   },
-    //   body: data,
-    // });
-    // let responseData: JSON = await response.json();
-    // console.log(responseData);
-    e.target.reset();
+    const params = new URLSearchParams();
+    for (const [key, value] of formData.entries()) {
+      params.append(key, value.toString());
+    }
+    window.location.href = `/register/confirm?${params.toString()}`;
   };
   return (
     <div className={register.container}>
