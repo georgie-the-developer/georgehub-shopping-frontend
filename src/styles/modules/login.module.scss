@@ -25,4 +25,24 @@
     margin-top: 50px;
     margin-bottom: 30px;
   }
+  .termsContainer {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    gap: 15px;
+    .linksContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      @media screen and (max-width: 600px) {
+        flex-direction: column;
+        align-items: baseline;
+      }
+    }
+    @media screen and (max-width: 900px) {
+      flex-direction: column;
+      align-items: baseline;
+    }
+  }
 }

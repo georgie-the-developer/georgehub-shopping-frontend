@@ -89,6 +89,18 @@ export default function Page() {
             patternMessage="Password should be at least 8 characters long, include at least one digit, one lowercase, and one uppercase letter, and must not contain any whitespaces."
             required={true}
           />
+          <div className={register.termsContainer}>
+            <Form.FormCheckbox
+              label={"I agree to the"}
+              name={"terms_agreement"}
+              required={true}
+            />
+            <div className={register.linksContainer}>
+              <Form.FormLink title="Terms of service" link="#" />
+              <span>and</span>
+              <Form.FormLink title="Privacy policy" link="#" />
+            </div>
+          </div>
           <Form.FormSubmit value="Submit" />
         </Form.Form>
       </div>
