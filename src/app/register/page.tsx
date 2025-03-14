@@ -96,7 +96,7 @@ export default function Page() {
       </div>
       <div className={register.textContainer}>Already signed up?</div>
       <div className={register.buttonLinkContainer}>
-        <ButtonLink link="login" text="Login" type="secondary" />
+        <ButtonLink link="/login" text="Login" type="secondary" />
       </div>
     </div>
   );
