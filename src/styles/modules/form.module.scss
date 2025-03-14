@@ -29,9 +29,52 @@
       color: var(--primary-text-color);
     }
   }
+  .checkboxContainer {
+    display: inline-flex;
+    align-items: center;
+    .checkbox,
+    .input[type="checkbox"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--primary-text-color);
+      border-radius: 5px;
+      background-color: white;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .checkbox:checked,
+    .input[type="checkbox"]:checked {
+      background-color: var(--primary-text-color);
+      border-color: var(--primary-text-color);
+      position: relative;
+    }
+
+    .checkbox:checked::after,
+    .input[type="checkbox"]:checked::after {
+      content: "";
+      display: block;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      position: absolute;
+      top: 2px;
+      left: 6px;
+    }
+    .checkboxLabel {
+      font-size: 20px;
+      margin-left: 10px;
+    }
+  }
   // link styling
   .linkContainer {
-    width: 90%;
+    width: auto;
     .link {
       color: var(--primary-text-color);
       font-size: 20px;

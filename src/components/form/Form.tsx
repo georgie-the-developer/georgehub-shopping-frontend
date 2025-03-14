@@ -78,6 +78,22 @@ export function FormInput({
   );
 }
 
+export function FormCheckbox({ label, name, required }) {
+  return (
+    <div className={form.checkboxContainer}>
+      <input
+        type="checkbox"
+        className={form.checkbox}
+        id={name}
+        name={name}
+        required={required}
+      />
+      <label htmlFor={name} className={form.checkboxLabel}>
+        {label}
+      </label>
+    </div>
+  );
+}
 // link component
 export function FormLink({ title, link }: FormLinkType) {
   return (
