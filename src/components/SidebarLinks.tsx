@@ -11,8 +11,8 @@ export default function SidebarLinks({ userRole }: SidebarLinkProps) {
       {userRole == "guest" && (
         <>
           <NavLink title="Welcome" route="/welcome" />
-          <NavLink title="Login" route="/auth/login" />
-          <NavLink title="Register" route="/auth/register" />
+          <NavLink title="Login" route="/login" />
+          <NavLink title="Register" route="/register" />
           <NavLink title="Home" route="/home" />
         </>
       )}
@@ -23,7 +23,7 @@ export default function SidebarLinks({ userRole }: SidebarLinkProps) {
           <NavLink title="Shopping cart" route="/cart" />
           <NavLink title="Upgrade to seller" route="/upgrade_to_seller" />
           <NavLink title="Notifications" route="/notifications" />
-          <NavLink title="Logout" route="/auth/logout" />
+          <NavLink title="Logout" route="/logout" />
         </>
       )}
       {userRole == "seller" && (
@@ -31,7 +31,7 @@ export default function SidebarLinks({ userRole }: SidebarLinkProps) {
           <NavLink title="Dashboard" route="/seller/dashboard" />
           <NavLink title="Profile" route="/profile" />
           <NavLink title="Notifications" route="/notifications" />
-          <NavLink title="Logout" route="/auth/logout" />
+          <NavLink title="Logout" route="/logout" />
         </>
       )}
       {userRole == "admin" && (
@@ -41,7 +41,7 @@ export default function SidebarLinks({ userRole }: SidebarLinkProps) {
           <NavLink title="Home" route="/home" />
           <NavLink title="Blacklist" route="/blacklist" />
           <NavLink title="Notifications" route="/notifications" />
-          <NavLink title="Logout" route="/auth/logout" />
+          <NavLink title="Logout" route="/logout" />
         </>
       )}
     </>
