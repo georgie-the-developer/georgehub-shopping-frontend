@@ -7,11 +7,6 @@ import ButtonLink from "@/components/buttons/ButtonLink";
 // Styling
 import login from "@/styles/modules/login.module.scss";
 
-interface LoginFormInput {
-  username: string;
-  password: string;
-}
-
 export default function Page() {
   const handleSubmit = async (e) => {
     e.preventDefault();
