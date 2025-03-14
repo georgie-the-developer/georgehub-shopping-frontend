@@ -56,7 +56,10 @@ export default function Page() {
             required={true}
           />
           <Form.FormSubmit value="Submit" />
-          <Form.FormLink title="Forgot password?" link="/forgot-password" />
+          <Form.FormLink
+            title="Forgot password?"
+            link="/forgot-password/email"
+          />
         </Form.Form>
       </div>
       <div className={login.textContainer}>Don't have an account yet?</div>
