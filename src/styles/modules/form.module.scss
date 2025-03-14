@@ -39,7 +39,7 @@
       height: 20px;
       border: 2px solid var(--primary-text-color);
       border-radius: 5px;
-      background-color: white;
+      background-color: var(--background-color);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -60,7 +60,7 @@
       display: block;
       width: 5px;
       height: 10px;
-      border: solid white;
+      border: solid var(--background-color);
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
       position: absolute;
