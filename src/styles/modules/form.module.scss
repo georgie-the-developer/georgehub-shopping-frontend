@@ -16,7 +16,6 @@
     .label {
       font-size: 24px;
     }
-
     .input[type="text"],
     .input[type="number"],
     .input[type="password"] {
@@ -27,6 +26,13 @@
       border: 1px solid var(--primary-text-color);
       background-color: var(--background-color);
       color: var(--primary-text-color);
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
   }
   .checkboxContainer {
