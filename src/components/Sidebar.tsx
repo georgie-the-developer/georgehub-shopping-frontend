@@ -5,8 +5,10 @@ import MoonSvg from "@/assets/icons/moon.svg";
 import SunSvg from "@/assets/icons/sun.svg";
 import SidebarLinks from "./SidebarLinks";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useUser } from "@/contexts/UserContext";
 export default function Sidebar({ isOpen, closeSidebar }) {
   const { toggleTheme, darkTheme } = useTheme();
+  const { user } = useUser();
   return (
     <div
       className={`${sidebar.container} ${
@@ -27,7 +29,7 @@ export default function Sidebar({ isOpen, closeSidebar }) {
           </div>
         </div>
         <div className={sidebar.linksContainer}>
-          <SidebarLinks userRole={"guest"} />
+          <SidebarLinks userRole={user.role} />
         </div>
       </div>
     </div>
