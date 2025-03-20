@@ -62,8 +62,6 @@ export default function Page() {
             name="card_number"
             label="Credit/debit card number"
             placeholder="Enter your card number"
-            pattern="{4,}$"
-            patternMessage="Full name should be at least 4 characters long."
             required={true}
           />
           <Form.FormInput
