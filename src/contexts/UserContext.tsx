@@ -1,0 +1,73 @@
+"use client";
+import config from "config.json";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import { useAlert } from "./AlertContext";
+
+interface User {
+  username?: string;
+  email?: string;
+  role: "unregistered" | "buyer" | "seller" | "admin" | "guest";
+  full_name?: string;
+  card_number?: string;
+  address?: string;
+  support_email?: string;
+}
+
+interface UserContextType {
+  user: User;
+  logout: () => void;
+}
+
+const UserContext = createContext<UserContextType | undefined>(undefined);
+
+export default function UserProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<User>({ role: "unregistered" });
+  const { showAlert } = useAlert();
+  const fetchUser = async () => {
+    let url = config.API_URL + "auth/me";
+    let res = await fetch(url, { credentials: "include" });
+    if (!res.ok) return { role: "unregistered" };
+    let data = await res.json();
+    return data;
+  };
+  const logout = async () => {
+    let url = config.API_URL + "auth/logout";
+    let res = await fetch(url, {
+      credentials: "include",
+      method: "POST",
+    });
+    if (res.ok) {
+      setUser({ role: "unregistered" });
+    } else {
+      showAlert("Something went wrong");
+    }
+  };
+  useEffect(() => {
+    const preserveUser = async () => {
+      let userData = await fetchUser();
+      setUser(userData.user);
+    };
+    preserveUser();
+  }, []);
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+  return (
+    <UserContext.Provider value={{ user, logout }}>
+      {children}
+    </UserContext.Provider>
+  );
+}
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
+  return context;
+};
