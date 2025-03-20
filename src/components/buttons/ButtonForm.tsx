@@ -6,8 +6,11 @@ type ButtonFromType = {
 };
 export default function ButtonForm({ action, value }: ButtonFromType) {
   return (
-    <button className={buttonForm.button} onClick={action}>
-      {value}
-    </button>
+    <input
+      type="button"
+      className={buttonForm.button}
+      onClick={action}
+      value={value}
+    />
   );
 }
