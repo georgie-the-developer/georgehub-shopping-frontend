@@ -11,7 +11,6 @@ import { redirect } from "next/navigation";
 import config from "config.json";
 // Styling
 import confirm from "@/styles/modules/login.module.scss";
-import { useUser } from "@/contexts/UserContext";
 
 export default function Page() {
   const { showAlert } = useAlert();
