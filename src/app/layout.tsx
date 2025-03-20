@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { SidebarProvider } from "@/contexts/SidebarContext";
 import { AlertProvider } from "@/contexts/AlertContext";
 import Layout from "./(grouped)/layout";
+import UserProvider from "@/contexts/UserContext";
 export default function RootLayout({
   children,
 }: {
@@ -15,7 +16,9 @@ export default function RootLayout({
         <ThemeProvider>
           <AlertProvider>
             <SidebarProvider>
-              <Layout>{children}</Layout>
+              <UserProvider>
+                <Layout>{children}</Layout>
+              </UserProvider>
             </SidebarProvider>
           </AlertProvider>
         </ThemeProvider>
