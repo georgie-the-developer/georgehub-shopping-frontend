@@ -59,6 +59,8 @@ export default function Page() {
           />
           <Form.FormInput
             type="text"
+            pattern="^(\d{4} \d{4} \d{4} \d{4})$"
+            patternMessage="Please follow the credit card pattern"
             name="card_number"
             label="Credit/debit card number"
             placeholder="Enter your card number"
