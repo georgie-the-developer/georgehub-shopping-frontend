@@ -6,6 +6,8 @@ const nextConfig = {
     });
     return config;
   },
+  experimental: {
+    authInterrupts: true,
+  },
 };
-
 module.exports = nextConfig;
