@@ -29,7 +29,6 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export default function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User>({ role: "guest" });
-  const { showAlert } = useAlert();
   const fetchUser = async () => {
     let url = config.API_URL + "auth/me";
     let res = await fetch(url, { credentials: "include" });
@@ -48,11 +47,7 @@ export default function UserProvider({ children }: { children: ReactNode }) {
         "X-CSRFToken": csrfToken,
       },
     });
-    if (res.ok) {
-      setUser({ role: "guest" });
-    } else {
-      showAlert("Something went wrong");
-    }
+    setUser({ role: "guest" });
   };
   useEffect(() => {
     const preserveUser = async () => {
