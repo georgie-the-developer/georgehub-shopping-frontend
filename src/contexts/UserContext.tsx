@@ -60,6 +60,10 @@ export default function UserProvider({ children }: { children: ReactNode }) {
       setUser(userData);
     };
     preserveUser();
+    setCsrf();
+    setInterval(() => {
+      setCsrf();
+    }, 60000);
   }, []);
   useEffect(() => {
     console.log(user);
