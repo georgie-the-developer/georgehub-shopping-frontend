@@ -3,10 +3,13 @@
 import * as Form from "@/components/form/Form";
 import ButtonLink from "@/components/buttons/ButtonLink";
 import ButtonForm from "@/components/buttons/ButtonForm";
+// Helpers
+import { limitAccesByRole } from "@/helpers/auth-middleware";
 // Styling
 import forgotPassword from "@/styles/modules/login.module.scss";
 
 export default function Page() {
+  limitAccesByRole(["guest"]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);

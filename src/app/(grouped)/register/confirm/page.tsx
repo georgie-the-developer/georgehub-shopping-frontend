@@ -7,6 +7,8 @@ import ButtonLink from "@/components/buttons/ButtonLink";
 import { useAlert } from "@/contexts/AlertContext";
 // Routing
 import { redirect } from "next/navigation";
+// Helpers
+import { limitAccesByRole } from "@/helpers/auth-middleware";
 // Config
 import config from "config.json";
 // Styling
@@ -14,6 +16,7 @@ import confirm from "@/styles/modules/login.module.scss";
 import { getCookie } from "@/helpers/cookies";
 
 export default function Page() {
+  limitAccesByRole(["guest"]);
   const { showAlert } = useAlert();
   const handleSubmit = async (e) => {
     e.preventDefault();
