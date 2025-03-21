@@ -1,5 +1,5 @@
 import { useUser } from "@/contexts/UserContext";
-import { forbidden } from "next/navigation";
+import { forbidden, redirect } from "next/navigation";
 
 type role = "guest" | "buyer" | "seller" | "admin";
 
@@ -9,4 +9,8 @@ export function limitAccesByRole(roles: role[]) {
   if (!roles.includes(user.role)) {
     forbidden();
   }
+}
+export function redirectByRole(roles: role[], redirectRoute: string) {
+  const { user } = useUser();
+  if (roles.includes(user.role)) redirect(redirectRoute);
 }
