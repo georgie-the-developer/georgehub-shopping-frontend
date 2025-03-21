@@ -4,28 +4,42 @@ import { useState } from "react";
 // Components
 import * as Form from "@/components/form/Form";
 import ButtonLink from "@/components/buttons/ButtonLink";
+// Config
+import config from "config.json";
 // Styling
 import login from "@/styles/modules/login.module.scss";
-
+import { getCookie } from "@/helpers/cookies";
+import { useAlert } from "@/contexts/AlertContext";
+import { redirect } from "next/navigation";
 export default function Page() {
+  const { showAlert } = useAlert();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = JSON.stringify(Object.fromEntries(formData));
     console.log(data);
-    // let csrfToken = "";
-    // let response = await fetch("/someurl", {
-    //   method: "POST",
-    //   credentials: "include",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "X-CSRFToken": csrfToken,
-    //   },
-    //   body: data,
-    // });
-    // let responseData: JSON = await response.json();
-    // console.log(responseData);
-    e.target.reset();
+    let csrfToken = getCookie("csrf_token");
+    let url = config.API_URL + "auth/login";
+    let res = await fetch(url, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+      },
+      body: data,
+    });
+    let resData = await res.json();
+    if (res.ok) {
+      showAlert("Login successfull");
+      e.target.reset();
+      setTimeout(() => {
+        redirect("/home");
+      }, 1000);
+    } else {
+      showAlert("Login error");
+    }
+    console.log(resData);
   };
   return (
     <div className={login.container}>
