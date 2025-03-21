@@ -1,7 +1,10 @@
+"use client";
 import React from "react";
 import welcome from "@/styles/modules/welcome.module.scss";
 import ButtonLink from "@/components/buttons/ButtonLink";
+import { redirectByRole } from "@/helpers/auth-middleware";
 export default function Page() {
+  redirectByRole(["buyer", "seller", "admin"], "/home");
   return (
     <div className={welcome.container}>
       <div className={welcome.heading}>Welcome to GeorgeHub Shopping!</div>
