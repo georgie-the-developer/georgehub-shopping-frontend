@@ -4,22 +4,18 @@ import * as Form from "@/components/form/Form";
 import ButtonLink from "@/components/buttons/ButtonLink";
 // Contexts
 import { useAlert } from "@/contexts/AlertContext";
-import { useUser } from "@/contexts/UserContext";
 // Helpers
 import { getCookie } from "@/helpers/cookies";
+import { limitAccesByRole } from "@/helpers/auth-middleware";
 // Navigation
-import { forbidden, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 // Config
 import config from "config.json";
 // Styling
 import login from "@/styles/modules/login.module.scss";
 
 export default function Page() {
-  // Show 403 for registered users
-  const { user } = useUser();
-  if (user.role != "guest") {
-    forbidden();
-  }
+  limitAccesByRole(["guest"]);
   const { showAlert } = useAlert();
   const handleSubmit = async (e) => {
     e.preventDefault();
