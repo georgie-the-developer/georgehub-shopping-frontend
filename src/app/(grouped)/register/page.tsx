@@ -2,11 +2,16 @@
 // Components
 import * as Form from "@/components/form/Form";
 import ButtonLink from "@/components/buttons/ButtonLink";
-//Navigation
+import ButtonForm from "@/components/buttons/ButtonForm";
+//Contexts
+import { useAlert } from "@/contexts/AlertContext";
+// Config
+import config from "config.json";
 // Styling
 import register from "@/styles/modules/login.module.scss";
 
 export default function Page() {
+  const { showAlert } = useAlert();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -15,6 +20,18 @@ export default function Page() {
       params.append(key, value.toString());
     }
     window.location.href = `/register/confirm?${params.toString()}`;
+  };
+  const checkUsernameAvailability = async () => {
+    let username = (document.getElementById("username") as HTMLInputElement)
+      .value;
+    if (!username) {
+      showAlert("You haven't provided any value");
+      return;
+    }
+    let url = config.API_URL + "auth/check-username/" + username;
+    let res = await fetch(url);
+    let data = await res.json();
+    showAlert(data.message);
   };
   return (
     <div className={register.container}>
@@ -39,6 +56,14 @@ export default function Page() {
             patternMessage="The username should be at least 4 characters long."
             required={true}
           />
+          <div className={register.buttonFormContainer}>
+            <div className={register.buttonContainer}>
+              <ButtonForm
+                action={checkUsernameAvailability}
+                value="Check availability"
+              />
+            </div>
+          </div>
           <Form.FormInput
             type="text"
             name="address"
