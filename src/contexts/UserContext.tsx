@@ -8,6 +8,7 @@ import {
   useEffect,
 } from "react";
 import { useAlert } from "./AlertContext";
+import { getCookie, setCsrf } from "@/helpers/cookies";
 
 interface User {
   username?: string;
@@ -39,11 +40,7 @@ export default function UserProvider({ children }: { children: ReactNode }) {
   };
   const logout = async () => {
     let url = config.API_URL + "auth/logout";
-    let csrfUrl = config.API_URL + "auth/csrf-token";
-    let csrfSetRes = await fetch(csrfUrl, {
-      credentials: "include",
-    }); // set csrf
-    let csrfToken = (await csrfSetRes.json()).csrf_token;
+    let csrfToken = getCookie("csrf_token");
     let res = await fetch(url, {
       credentials: "include",
       method: "POST",

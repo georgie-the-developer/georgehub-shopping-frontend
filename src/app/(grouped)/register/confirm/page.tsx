@@ -11,6 +11,7 @@ import { redirect } from "next/navigation";
 import config from "config.json";
 // Styling
 import confirm from "@/styles/modules/login.module.scss";
+import { getCookie } from "@/helpers/cookies";
 
 export default function Page() {
   const { showAlert } = useAlert();
@@ -19,12 +20,10 @@ export default function Page() {
     const params = new URLSearchParams(window.location.search);
     const data = JSON.stringify(Object.fromEntries(params.entries()));
     console.log(data);
-    let csrfUrl = config.API_URL + "auth/csrf-token";
-    let csrfSetRes = await fetch(csrfUrl, {
-      credentials: "include",
-    }); // set csrf
-    let csrfToken = (await csrfSetRes.json()).csrf_token;
-    console.log(csrfToken);
+    let csrfToken = getCookie("csrf_token");
+    if (!csrfToken) {
+      console.log("csrf_token no found");
+    }
     let url = config.API_URL + "auth/register";
     let response = await fetch(url, {
       method: "POST",
