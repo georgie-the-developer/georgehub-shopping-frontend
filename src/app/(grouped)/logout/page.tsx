@@ -10,6 +10,6 @@ export default function Page() {
       redirect("/welcome");
     }, 1000);
     return () => clearTimeout(timer);
-  }, [logout]);
+  }, []);
   return <div className="">Logging out...</div>;
 }
