@@ -27,7 +27,8 @@
       "@/styles/*": ["styles/*"],
       "@/components/*": ["components/*"],
       "@/contexts/*": ["contexts/*"],
-      "@/assets/*": ["assets/*"]
+      "@/assets/*": ["assets/*"],
+      "@/helpers/*": ["helpers/*"]
     }
   },
   "include": [
