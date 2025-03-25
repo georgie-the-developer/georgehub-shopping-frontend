@@ -2,13 +2,32 @@
 // Components
 import * as Form from "@/components/form/Form";
 import ButtonLink from "@/components/buttons/ButtonLink";
+// Config
+import config from "config.json";
 // Helpers
 import { limitAccesByRole } from "@/helpers/auth-middleware";
+import { getCookie } from "@/helpers/cookies";
 // Styling
 import forgotPassword from "@/styles/modules/login.module.scss";
 
 export default function Page() {
   limitAccesByRole(["guest"]);
+  const requestConfirmCode = async (email: string) => {
+    let url = config.API_URL + "auth/confirmation-code";
+    let csrf_token = getCookie("csrf_token");
+    console.log(csrf_token);
+    let res = await fetch(url, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "X-CSRFToken": csrf_token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email }),
+    });
+    let data = await res.json();
+    console.log(data);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -16,8 +35,10 @@ export default function Page() {
     for (const [key, value] of formData.entries()) {
       params.append(key, value.toString());
     }
-    //Send verification code...
     // Redirect to next stage
+    let email = e.target["email"].value;
+    console.log(email);
+    requestConfirmCode(email);
     window.location.href = `/forgot-password/change-password?${params.toString()}`;
   };
   return (
