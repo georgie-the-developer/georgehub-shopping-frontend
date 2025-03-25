@@ -21,7 +21,9 @@ export default function Page() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const params = new URLSearchParams(window.location.search);
-    const data = JSON.stringify(Object.fromEntries(params.entries()));
+    let objData = Object.fromEntries(params.entries());
+    objData["confirmation_code"] = e.target["confirm_code"].value;
+    const data = JSON.stringify(objData)
     console.log(data);
     let csrfToken = getCookie("csrf_token");
     if (!csrfToken) {
