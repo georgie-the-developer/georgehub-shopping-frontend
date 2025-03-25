@@ -5,6 +5,7 @@ import ButtonForm from "@/components/buttons/ButtonForm";
 import ButtonLink from "@/components/buttons/ButtonLink";
 // Contexts
 import { useAlert } from "@/contexts/AlertContext";
+import { useUser } from "@/contexts/UserContext";
 // Routing
 import { redirect } from "next/navigation";
 // Helpers
@@ -17,13 +18,14 @@ import { getCookie } from "@/helpers/cookies";
 
 export default function Page() {
   limitAccesByRole(["guest"]);
+  const { login } = useUser();
   const { showAlert } = useAlert();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const params = new URLSearchParams(window.location.search);
     let objData = Object.fromEntries(params.entries());
     objData["confirmation_code"] = e.target["confirm_code"].value;
-    const data = JSON.stringify(objData)
+    const data = JSON.stringify(objData);
     console.log(data);
     let csrfToken = getCookie("csrf_token");
     if (!csrfToken) {
@@ -46,6 +48,7 @@ export default function Page() {
       console.log(responseData);
       e.target.reset();
       showAlert("Registered succsessfully");
+      login();
       setTimeout(() => {
         redirect("/home");
       }, 2000);

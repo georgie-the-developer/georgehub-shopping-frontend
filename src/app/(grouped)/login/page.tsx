@@ -4,6 +4,7 @@ import * as Form from "@/components/form/Form";
 import ButtonLink from "@/components/buttons/ButtonLink";
 // Contexts
 import { useAlert } from "@/contexts/AlertContext";
+import { useUser } from "@/contexts/UserContext";
 // Helpers
 import { getCookie } from "@/helpers/cookies";
 import { limitAccesByRole } from "@/helpers/auth-middleware";
@@ -12,11 +13,12 @@ import { redirect } from "next/navigation";
 // Config
 import config from "config.json";
 // Styling
-import login from "@/styles/modules/login.module.scss";
+import loginStyling from "@/styles/modules/login.module.scss";
 
 export default function Page() {
   limitAccesByRole(["guest"]);
   const { showAlert } = useAlert();
+  const { login } = useUser();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -37,6 +39,7 @@ export default function Page() {
     if (res.ok) {
       showAlert("Login successfull");
       e.target.reset();
+      login();
       setTimeout(() => {
         redirect("/home");
       }, 1000);
@@ -46,9 +49,9 @@ export default function Page() {
     console.log(resData);
   };
   return (
-    <div className={login.container}>
-      <div className={login.heading}>Login to GeorgeHub Shopping</div>
-      <div className={login.formContainer}>
+    <div className={loginStyling.container}>
+      <div className={loginStyling.heading}>Login to GeorgeHub Shopping</div>
+      <div className={loginStyling.formContainer}>
         <Form.Form handleSubmit={handleSubmit}>
           <Form.FormInput
             type="text"
@@ -75,8 +78,10 @@ export default function Page() {
           />
         </Form.Form>
       </div>
-      <div className={login.textContainer}>Don't have an account yet?</div>
-      <div className={login.buttonLinkContainer}>
+      <div className={loginStyling.textContainer}>
+        Don't have an account yet?
+      </div>
+      <div className={loginStyling.buttonLinkContainer}>
         <ButtonLink link="/register" text="Register" type="secondary" />
       </div>
     </div>

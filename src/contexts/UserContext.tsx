@@ -22,6 +22,7 @@ interface User {
 
 interface UserContextType {
   user: User;
+  login: () => void;
   logout: () => void;
 }
 
@@ -36,6 +37,10 @@ export default function UserProvider({ children }: { children: ReactNode }) {
     let data = await res.json();
     console.log(data);
     return data.user;
+  };
+  const login = async () => {
+    let userData = await fetchUser();
+    setUser(userData);
   };
   const logout = async () => {
     let url = config.API_URL + "auth/logout";
@@ -64,7 +69,7 @@ export default function UserProvider({ children }: { children: ReactNode }) {
     console.log(user);
   }, [user]);
   return (
-    <UserContext.Provider value={{ user, logout }}>
+    <UserContext.Provider value={{ user, login, logout }}>
       {children}
     </UserContext.Provider>
   );
