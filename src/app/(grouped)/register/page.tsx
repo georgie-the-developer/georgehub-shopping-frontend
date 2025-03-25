@@ -7,6 +7,7 @@ import ButtonForm from "@/components/buttons/ButtonForm";
 import { useAlert } from "@/contexts/AlertContext";
 // Helpers
 import { limitAccesByRole } from "@/helpers/auth-middleware";
+import { getCookie } from "@/helpers/cookies";
 // Config
 import config from "config.json";
 // Styling
@@ -15,6 +16,22 @@ import register from "@/styles/modules/login.module.scss";
 export default function Page() {
   limitAccesByRole(["guest"]);
   const { showAlert } = useAlert();
+  const requestConfirmCode = async (email: string) => {
+    let url = config.API_URL + "auth/confirmation-code";
+    let csrf_token = getCookie("csrf_token");
+    console.log(csrf_token);
+    let res = await fetch(url, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "X-CSRFToken": csrf_token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email }),
+    });
+    let data = await res.json();
+    console.log(data);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -22,6 +39,7 @@ export default function Page() {
     for (const [key, value] of formData.entries()) {
       params.append(key, value.toString());
     }
+    requestConfirmCode(e.target["email"].value);
     window.location.href = `/register/confirm?${params.toString()}`;
   };
   const checkUsernameAvailability = async () => {
