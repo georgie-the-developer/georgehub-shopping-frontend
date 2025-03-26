@@ -44,9 +44,7 @@ export default function Page() {
         showAlert("Login successfull");
         e.target.reset();
         login();
-        setTimeout(() => {
-          redirect("/home");
-        }, 1000);
+        redirect("/home");
       } else {
         showAlert("Login error");
       }
