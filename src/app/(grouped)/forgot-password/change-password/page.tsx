@@ -47,8 +47,6 @@ export default function Page() {
           e.target.reset();
           redirect("/login");
         }
-        console.log(data);
-        console.log(resJson);
       } catch (e) {
         console.log(e);
         showAlert("Fetch error");

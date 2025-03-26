@@ -21,7 +21,6 @@ export default function Page() {
   const requestConfirmCode = async (email: string) => {
     let url = config.API_URL + "auth/confirmation-code";
     let csrf_token = getCookie("csrf_token");
-    console.log(csrf_token);
     let res = await fetch(url, {
       method: "POST",
       credentials: "include",
@@ -32,7 +31,6 @@ export default function Page() {
       body: JSON.stringify({ email: email }),
     });
     let data = await res.json();
-    console.log(data);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +41,6 @@ export default function Page() {
     }
     // Redirect to next stage
     let email = e.target["email"].value;
-    console.log(email);
     startTransition(async () => {
       try {
         requestConfirmCode(email);

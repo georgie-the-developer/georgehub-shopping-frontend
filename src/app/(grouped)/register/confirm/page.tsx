@@ -29,13 +29,9 @@ export default function Page() {
     let objData = Object.fromEntries(params.entries());
     objData["confirmation_code"] = e.target["confirm_code"].value;
     const data = JSON.stringify(objData);
-    console.log(data);
     startTransition(async () => {
       try {
         let csrfToken = getCookie("csrf_token");
-        if (!csrfToken) {
-          console.log("csrf_token no found");
-        }
         let url = config.API_URL + "auth/register";
         let response = await fetch(url, {
           method: "POST",
@@ -50,7 +46,6 @@ export default function Page() {
         if (!response.ok) {
           showAlert(responseData.message);
         } else {
-          console.log(responseData);
           e.target.reset();
           showAlert("Registered succsessfully");
           login();

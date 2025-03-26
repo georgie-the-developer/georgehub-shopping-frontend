@@ -35,7 +35,6 @@ export default function UserProvider({ children }: { children: ReactNode }) {
     let res = await fetch(url, { credentials: "include" });
     if (!res.ok) return { role: "guest" };
     let data = await res.json();
-    console.log(data);
     return data.user;
   };
   const login = async () => {

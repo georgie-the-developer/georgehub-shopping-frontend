@@ -26,7 +26,6 @@ export default function Page() {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = JSON.stringify(Object.fromEntries(formData));
-    console.log(data);
     startTransition(async () => {
       try {
         let csrfToken = getCookie("csrf_token");
@@ -49,7 +48,6 @@ export default function Page() {
         } else {
           showAlert("Login error");
         }
-        console.log(resData);
       } catch (e) {
         console.log(e);
         showAlert("Fetch error");
