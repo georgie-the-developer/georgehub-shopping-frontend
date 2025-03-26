@@ -115,7 +115,7 @@ export function FormSubmit({ value, isPending = false }: FormSubmitType) {
         type="submit"
         value={value}
         className={`${form.button} ${!isSubmittable && form.disabeled}`}
-        disabled={!isSubmittable}
+        disabled={!isSubmittable || isPending}
       />
       <div className={form.spinnerContainer}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
