@@ -92,6 +92,8 @@
   }
   // submit styling
   .submitContainer {
+    position: relative;
+    width: 90%;
     .button {
       font-size: 32px;
       background-color: var(--primary-text-color);
@@ -101,6 +103,7 @@
       border-radius: 10px;
       padding: 7px;
       transition: all 0.5s;
+
       &:hover {
         background-color: var(--background-color);
         color: var(--primary-text-color);
@@ -116,6 +119,43 @@
         opacity: 0.8;
       }
     }
-    width: 90%;
+    .spinnerContainer {
+      display: none;
+      overflow: hidden;
+    }
+    &.pending {
+      .button {
+        color: var(--secondary-text-color);
+        &:hover {
+          background-color: var(--primary-text-color);
+          border: 1px solid var(--primary-text-color);
+        }
+        cursor: not-allowed;
+        opacity: 0.8;
+      }
+      .spinnerContainer {
+        display: inline;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        svg {
+          width: 100%;
+          height: 100%;
+          animation: spin 1s infinite linear;
+          fill: var(--background-color);
+        }
+      }
+      @keyframes spin {
+        from {
+          rotate: 0deg;
+        }
+        to {
+          rotate: 360deg;
+        }
+      }
+    }
   }
 }
