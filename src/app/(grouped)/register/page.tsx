@@ -3,6 +3,8 @@
 import * as Form from "@/components/form/Form";
 import ButtonLink from "@/components/buttons/ButtonLink";
 import ButtonForm from "@/components/buttons/ButtonForm";
+// Hooks
+import { useTransition } from "react";
 //Contexts
 import { useAlert } from "@/contexts/AlertContext";
 // Helpers
@@ -16,6 +18,7 @@ import register from "@/styles/modules/login.module.scss";
 export default function Page() {
   limitAccesByRole(["guest"]);
   const { showAlert } = useAlert();
+  const [isPending, startTransition] = useTransition();
   const requestConfirmCode = async (email: string) => {
     let url = config.API_URL + "auth/confirmation-code";
     let csrf_token = getCookie("csrf_token");
@@ -39,8 +42,10 @@ export default function Page() {
     for (const [key, value] of formData.entries()) {
       params.append(key, value.toString());
     }
-    requestConfirmCode(e.target["email"].value);
-    window.location.href = `/register/confirm?${params.toString()}`;
+    startTransition(async () => {
+      requestConfirmCode(e.target["email"].value);
+      window.location.href = `/register/confirm?${params.toString()}`;
+    });
   };
   const checkUsernameAvailability = async () => {
     let username = (document.getElementById("username") as HTMLInputElement)
@@ -133,7 +138,7 @@ export default function Page() {
               <Form.FormLink title="Privacy policy" link="#" />
             </div>
           </div>
-          <Form.FormSubmit value="Submit" />
+          <Form.FormSubmit value="Submit" isPending={isPending} />
         </Form.Form>
       </div>
       <div className={register.textContainer}>Already signed up?</div>
