@@ -9,13 +9,13 @@ import { useAlert } from "@/contexts/AlertContext";
 // Config
 import config from "config.json";
 // Helpers
-import { limitAccesByRole } from "@/helpers/auth-middleware";
+import { useLimitAccessByRole } from "@/helpers/auth-middleware";
 import { getCookie } from "@/helpers/cookies";
 // Styling
 import forgotPassword from "@/styles/modules/login.module.scss";
 
 export default function Page() {
-  limitAccesByRole(["guest"]);
+  useLimitAccessByRole(["guest"]);
   const { showAlert } = useAlert();
   const [isPending, startTransition] = useTransition();
   const requestConfirmCode = async (email: string) => {

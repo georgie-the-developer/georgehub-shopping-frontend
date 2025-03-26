@@ -4,13 +4,13 @@ import { forbidden, redirect } from "next/navigation";
 type role = "guest" | "buyer" | "seller" | "admin";
 
 // Grants access only to provided array of roles
-export function limitAccesByRole(roles: role[]) {
+export function useLimitAccessByRole(roles: role[]) {
   const { user } = useUser();
   if (!roles.includes(user.role)) {
     forbidden();
   }
 }
-export function redirectByRole(roles: role[], redirectRoute: string) {
+export function useRedirectByRole(roles: role[], redirectRoute: string) {
   const { user } = useUser();
   if (roles.includes(user.role)) redirect(redirectRoute);
 }

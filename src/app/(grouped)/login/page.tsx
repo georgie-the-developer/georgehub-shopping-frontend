@@ -9,7 +9,7 @@ import { useAlert } from "@/contexts/AlertContext";
 import { useUser } from "@/contexts/UserContext";
 // Helpers
 import { getCookie } from "@/helpers/cookies";
-import { limitAccesByRole } from "@/helpers/auth-middleware";
+import { useLimitAccessByRole } from "@/helpers/auth-middleware";
 // Navigation
 import { redirect } from "next/navigation";
 // Config
@@ -18,7 +18,7 @@ import config from "config.json";
 import loginStyling from "@/styles/modules/login.module.scss";
 
 export default function Page() {
-  limitAccesByRole(["guest"]);
+  useLimitAccessByRole(["guest"]);
   const { showAlert } = useAlert();
   const { login } = useUser();
   const [isPending, startTransition] = useTransition();

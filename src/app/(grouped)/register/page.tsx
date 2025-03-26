@@ -8,7 +8,7 @@ import { useTransition } from "react";
 //Contexts
 import { useAlert } from "@/contexts/AlertContext";
 // Helpers
-import { limitAccesByRole } from "@/helpers/auth-middleware";
+import { useLimitAccessByRole } from "@/helpers/auth-middleware";
 import { getCookie } from "@/helpers/cookies";
 // Config
 import config from "config.json";
@@ -16,7 +16,7 @@ import config from "config.json";
 import register from "@/styles/modules/login.module.scss";
 
 export default function Page() {
-  limitAccesByRole(["guest"]);
+  useLimitAccessByRole(["guest"]);
   const { showAlert } = useAlert();
   const [isPending, startTransition] = useTransition();
   const requestConfirmCode = async (email: string) => {
