@@ -5,6 +5,8 @@ import ButtonLink from "@/components/buttons/ButtonLink";
 import ButtonForm from "@/components/buttons/ButtonForm";
 // Hooks
 import { useTransition } from "react";
+// Contexts
+import { useAlert } from "@/contexts/AlertContext";
 // Config
 import config from "config.json";
 // Helpers
@@ -12,10 +14,11 @@ import { limitAccesByRole } from "@/helpers/auth-middleware";
 import { getCookie } from "@/helpers/cookies";
 // Styling
 import forgotPassword from "@/styles/modules/login.module.scss";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 
 export default function Page() {
   limitAccesByRole(["guest"]);
+  const { showAlert } = useAlert();
   const [isPending, startTransition] = useTransition();
   let searchParams = useSearchParams();
   const handleSubmit = async (e) => {
@@ -38,9 +41,13 @@ export default function Page() {
         body: JSON.stringify(data),
       });
       let resJson = await res.json();
+      showAlert(resJson.message);
+      if (res.ok) {
+        e.target.reset();
+        redirect("/login");
+      }
       console.log(data);
       console.log(resJson);
-      e.target.reset();
     });
   };
   return (
