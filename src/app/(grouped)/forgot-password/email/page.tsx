@@ -2,6 +2,8 @@
 // Components
 import * as Form from "@/components/form/Form";
 import ButtonLink from "@/components/buttons/ButtonLink";
+// Hooks
+import { useTransition } from "react";
 // Config
 import config from "config.json";
 // Helpers
@@ -12,6 +14,7 @@ import forgotPassword from "@/styles/modules/login.module.scss";
 
 export default function Page() {
   limitAccesByRole(["guest"]);
+  const [isPending, startTransition] = useTransition();
   const requestConfirmCode = async (email: string) => {
     let url = config.API_URL + "auth/confirmation-code";
     let csrf_token = getCookie("csrf_token");
@@ -38,8 +41,10 @@ export default function Page() {
     // Redirect to next stage
     let email = e.target["email"].value;
     console.log(email);
-    requestConfirmCode(email);
-    window.location.href = `/forgot-password/change-password?${params.toString()}`;
+    startTransition(async () => {
+      requestConfirmCode(email);
+      window.location.href = `/forgot-password/change-password?${params.toString()}`;
+    });
   };
   return (
     <div className={forgotPassword.container}>
@@ -58,7 +63,7 @@ export default function Page() {
             patternMessage="The entry should folow the email pattern."
             required={true}
           />
-          <Form.FormSubmit value="Send reset code" />
+          <Form.FormSubmit value="Send reset code" isPending={isPending} />
         </Form.Form>
       </div>
       <div className={forgotPassword.textContainer}>Got here by accident?</div>
