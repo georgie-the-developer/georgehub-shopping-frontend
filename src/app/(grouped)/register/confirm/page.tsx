@@ -49,7 +49,9 @@ export default function Page() {
           e.target.reset();
           showAlert("Registered succsessfully");
           login();
-          redirect("/home");
+          startTransition(async () => {
+            redirect("/home");
+          });
         }
       } catch (e) {
         console.log(e);

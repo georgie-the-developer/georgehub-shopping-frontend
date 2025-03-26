@@ -44,7 +44,9 @@ export default function Page() {
           showAlert("Login successfull");
           e.target.reset();
           login();
-          redirect("/home");
+          startTransition(async () => {
+            redirect("/home");
+          });
         } else {
           showAlert("Login error");
         }

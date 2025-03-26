@@ -45,7 +45,9 @@ export default function Page() {
         showAlert(resJson.message);
         if (res.ok) {
           e.target.reset();
-          redirect("/login");
+          startTransition(async () => {
+            redirect("/login");
+          });
         }
       } catch (e) {
         console.log(e);
