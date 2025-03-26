@@ -19,7 +19,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [darkTheme, setDarkTheme] = useState<boolean | null>(null);
   useEffect(() => {
     // Access localStorage safely after the component mounts
-    const storedTheme = localStorage.getItem("theme");
+    const storedTheme = localStorage.getItem("theme") || "light";
     if (storedTheme === "dark") {
       setDarkTheme(true);
     } else if (storedTheme === "light") {
@@ -30,10 +30,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     if (darkTheme !== null) {
       // Update localStorage and document attribute only when darkTheme is determined
       localStorage.setItem("theme", darkTheme ? "dark" : "light");
-      document.documentElement.setAttribute(
-        "data-theme",
-        darkTheme ? "dark" : "light"
-      );
     }
   }, [darkTheme]);
   const toggleTheme = () => setDarkTheme((prev) => !prev);
