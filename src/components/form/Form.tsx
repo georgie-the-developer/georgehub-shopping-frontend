@@ -25,7 +25,7 @@ type FormLinkType = {
 
 type FormSubmitType = {
   value: string;
-  isPending: boolean;
+  isPending?: boolean;
 };
 
 // Main component
@@ -107,7 +107,7 @@ export function FormLink({ title, link }: FormLinkType) {
 }
 
 // submit component
-export function FormSubmit({ value, isPending }: FormSubmitType) {
+export function FormSubmit({ value, isPending = false }: FormSubmitType) {
   const { isSubmittable } = useForm();
   return (
     <div className={`${form.submitContainer} ${isPending && form.pending}`}>
