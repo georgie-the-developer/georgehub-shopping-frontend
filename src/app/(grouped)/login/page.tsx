@@ -2,6 +2,8 @@
 // Components
 import * as Form from "@/components/form/Form";
 import ButtonLink from "@/components/buttons/ButtonLink";
+// Hooks
+import { startTransition, useTransition } from "react";
 // Contexts
 import { useAlert } from "@/contexts/AlertContext";
 import { useUser } from "@/contexts/UserContext";
@@ -19,34 +21,37 @@ export default function Page() {
   limitAccesByRole(["guest"]);
   const { showAlert } = useAlert();
   const { login } = useUser();
+  const [isPending, startTransition] = useTransition();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = JSON.stringify(Object.fromEntries(formData));
     console.log(data);
-    let csrfToken = getCookie("csrf_token");
-    let url = config.API_URL + "auth/login";
-    let res = await fetch(url, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": csrfToken,
-      },
-      body: data,
+    startTransition(async () => {
+      let csrfToken = getCookie("csrf_token");
+      let url = config.API_URL + "auth/login";
+      let res = await fetch(url, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrfToken,
+        },
+        body: data,
+      });
+      let resData = await res.json();
+      if (res.ok) {
+        showAlert("Login successfull");
+        e.target.reset();
+        login();
+        setTimeout(() => {
+          redirect("/home");
+        }, 1000);
+      } else {
+        showAlert("Login error");
+      }
+      console.log(resData);
     });
-    let resData = await res.json();
-    if (res.ok) {
-      showAlert("Login successfull");
-      e.target.reset();
-      login();
-      setTimeout(() => {
-        redirect("/home");
-      }, 1000);
-    } else {
-      showAlert("Login error");
-    }
-    console.log(resData);
   };
   return (
     <div className={loginStyling.container}>
@@ -71,7 +76,7 @@ export default function Page() {
             patternMessage="Password should be at least 8 characters long, include at least one digit, one lowercase, and one uppercase letter, and must not contain any whitespaces."
             required={true}
           />
-          <Form.FormSubmit value="Submit" />
+          <Form.FormSubmit value="Submit" isPending={isPending} />
           <Form.FormLink
             title="Forgot password?"
             link="/forgot-password/email"
