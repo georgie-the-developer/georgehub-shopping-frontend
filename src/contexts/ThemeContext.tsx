@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/components/Loading";
 import {
   createContext,
   useContext,
@@ -15,17 +16,31 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [darkTheme, setDarkTheme] = useState<boolean>(() => {
-    return localStorage.getItem("theme") === "dark";
-  });
+  const [darkTheme, setDarkTheme] = useState<boolean | null>(null);
   useEffect(() => {
-    localStorage.setItem("theme", darkTheme ? "dark" : "light");
-    document.documentElement.setAttribute(
-      "data-theme",
-      darkTheme ? "dark" : "light"
-    );
+    // Access localStorage safely after the component mounts
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme === "dark") {
+      setDarkTheme(true);
+    } else if (storedTheme === "light") {
+      setDarkTheme(false);
+    }
+  }, []);
+  useEffect(() => {
+    if (darkTheme !== null) {
+      // Update localStorage and document attribute only when darkTheme is determined
+      localStorage.setItem("theme", darkTheme ? "dark" : "light");
+      document.documentElement.setAttribute(
+        "data-theme",
+        darkTheme ? "dark" : "light"
+      );
+    }
   }, [darkTheme]);
   const toggleTheme = () => setDarkTheme((prev) => !prev);
+
+  if (darkTheme === null) {
+    return <Loading />;
+  }
 
   return (
     <ThemeContext.Provider value={{ darkTheme, toggleTheme }}>
