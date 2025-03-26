@@ -53,9 +53,7 @@ export default function Page() {
         e.target.reset();
         showAlert("Registered succsessfully");
         login();
-        setTimeout(() => {
-          redirect("/home");
-        }, 2000);
+        redirect("/home");
       }
     });
   };
