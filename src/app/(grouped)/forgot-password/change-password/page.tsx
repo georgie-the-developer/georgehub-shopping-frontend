@@ -3,6 +3,8 @@
 import * as Form from "@/components/form/Form";
 import ButtonLink from "@/components/buttons/ButtonLink";
 import ButtonForm from "@/components/buttons/ButtonForm";
+// Hooks
+import { useTransition } from "react";
 // Config
 import config from "config.json";
 // Helpers
@@ -14,6 +16,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function Page() {
   limitAccesByRole(["guest"]);
+  const [isPending, startTransition] = useTransition();
   let searchParams = useSearchParams();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,21 +25,23 @@ export default function Page() {
       new_password: e.target["new_password"].value,
       email: searchParams.get("email"),
     };
-    let url = config.API_URL + "auth/reset-password";
-    let csrf_token = getCookie("csrf_token");
-    let res = await fetch(url, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "X-CSRFToken": csrf_token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+    startTransition(async () => {
+      let url = config.API_URL + "auth/reset-password";
+      let csrf_token = getCookie("csrf_token");
+      let res = await fetch(url, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "X-CSRFToken": csrf_token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      let resJson = await res.json();
+      console.log(data);
+      console.log(resJson);
+      e.target.reset();
     });
-    let resJson = await res.json();
-    console.log(data);
-    console.log(resJson);
-    // e.target.reset();
   };
   return (
     <div className={forgotPassword.container}>
@@ -64,7 +69,7 @@ export default function Page() {
             patternMessage="Password should be at least 8 characters long, include at least one digit, one lowercase, and one uppercase letter, and must not contain any whitespaces."
             required={true}
           />
-          <Form.FormSubmit value="Save" />
+          <Form.FormSubmit value="Save" isPending={isPending} />
           <div className={forgotPassword.buttonFormContainer}>
             <div className={forgotPassword.buttonContainer}>
               <ButtonForm action={() => alert("hi")} value="Resend code" />
