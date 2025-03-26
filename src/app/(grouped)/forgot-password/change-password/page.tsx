@@ -29,25 +29,30 @@ export default function Page() {
       email: searchParams.get("email"),
     };
     startTransition(async () => {
-      let url = config.API_URL + "auth/reset-password";
-      let csrf_token = getCookie("csrf_token");
-      let res = await fetch(url, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "X-CSRFToken": csrf_token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      let resJson = await res.json();
-      showAlert(resJson.message);
-      if (res.ok) {
-        e.target.reset();
-        redirect("/login");
+      try {
+        let url = config.API_URL + "auth/reset-password";
+        let csrf_token = getCookie("csrf_token");
+        let res = await fetch(url, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "X-CSRFToken": csrf_token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        let resJson = await res.json();
+        showAlert(resJson.message);
+        if (res.ok) {
+          e.target.reset();
+          redirect("/login");
+        }
+        console.log(data);
+        console.log(resJson);
+      } catch (e) {
+        console.log(e);
+        showAlert("Fetch error");
       }
-      console.log(data);
-      console.log(resJson);
     });
   };
   return (

@@ -43,8 +43,13 @@ export default function Page() {
       params.append(key, value.toString());
     }
     startTransition(async () => {
-      requestConfirmCode(e.target["email"].value);
-      window.location.href = `/register/confirm?${params.toString()}`;
+      try {
+        requestConfirmCode(e.target["email"].value);
+        window.location.href = `/register/confirm?${params.toString()}`;
+      } catch (e) {
+        console.log(e);
+        showAlert("Fetch error");
+      }
     });
   };
   const checkUsernameAvailability = async () => {

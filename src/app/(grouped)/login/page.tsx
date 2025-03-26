@@ -28,27 +28,32 @@ export default function Page() {
     const data = JSON.stringify(Object.fromEntries(formData));
     console.log(data);
     startTransition(async () => {
-      let csrfToken = getCookie("csrf_token");
-      let url = config.API_URL + "auth/login";
-      let res = await fetch(url, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": csrfToken,
-        },
-        body: data,
-      });
-      let resData = await res.json();
-      if (res.ok) {
-        showAlert("Login successfull");
-        e.target.reset();
-        login();
-        redirect("/home");
-      } else {
-        showAlert("Login error");
+      try {
+        let csrfToken = getCookie("csrf_token");
+        let url = config.API_URL + "auth/login";
+        let res = await fetch(url, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken,
+          },
+          body: data,
+        });
+        let resData = await res.json();
+        if (res.ok) {
+          showAlert("Login successfull");
+          e.target.reset();
+          login();
+          redirect("/home");
+        } else {
+          showAlert("Login error");
+        }
+        console.log(resData);
+      } catch (e) {
+        console.log(e);
+        showAlert("Fetch error");
       }
-      console.log(resData);
     });
   };
   return (

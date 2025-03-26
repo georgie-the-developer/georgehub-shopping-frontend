@@ -4,6 +4,8 @@ import * as Form from "@/components/form/Form";
 import ButtonLink from "@/components/buttons/ButtonLink";
 // Hooks
 import { useTransition } from "react";
+// Contexts
+import { useAlert } from "@/contexts/AlertContext";
 // Config
 import config from "config.json";
 // Helpers
@@ -14,6 +16,7 @@ import forgotPassword from "@/styles/modules/login.module.scss";
 
 export default function Page() {
   limitAccesByRole(["guest"]);
+  const { showAlert } = useAlert();
   const [isPending, startTransition] = useTransition();
   const requestConfirmCode = async (email: string) => {
     let url = config.API_URL + "auth/confirmation-code";
@@ -42,8 +45,13 @@ export default function Page() {
     let email = e.target["email"].value;
     console.log(email);
     startTransition(async () => {
-      requestConfirmCode(email);
-      window.location.href = `/forgot-password/change-password?${params.toString()}`;
+      try {
+        requestConfirmCode(email);
+        window.location.href = `/forgot-password/change-password?${params.toString()}`;
+      } catch (e) {
+        console.log(e);
+        showAlert("Fetch error");
+      }
     });
   };
   return (

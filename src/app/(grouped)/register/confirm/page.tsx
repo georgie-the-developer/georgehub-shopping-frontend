@@ -31,29 +31,34 @@ export default function Page() {
     const data = JSON.stringify(objData);
     console.log(data);
     startTransition(async () => {
-      let csrfToken = getCookie("csrf_token");
-      if (!csrfToken) {
-        console.log("csrf_token no found");
-      }
-      let url = config.API_URL + "auth/register";
-      let response = await fetch(url, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": csrfToken,
-        },
-        body: data,
-      });
-      let responseData = await response.json();
-      if (!response.ok) {
-        showAlert(responseData.message);
-      } else {
-        console.log(responseData);
-        e.target.reset();
-        showAlert("Registered succsessfully");
-        login();
-        redirect("/home");
+      try {
+        let csrfToken = getCookie("csrf_token");
+        if (!csrfToken) {
+          console.log("csrf_token no found");
+        }
+        let url = config.API_URL + "auth/register";
+        let response = await fetch(url, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken,
+          },
+          body: data,
+        });
+        let responseData = await response.json();
+        if (!response.ok) {
+          showAlert(responseData.message);
+        } else {
+          console.log(responseData);
+          e.target.reset();
+          showAlert("Registered succsessfully");
+          login();
+          redirect("/home");
+        }
+      } catch (e) {
+        console.log(e);
+        showAlert("Fetch error");
       }
     });
   };
