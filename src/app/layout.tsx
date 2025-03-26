@@ -5,6 +5,8 @@ import { SidebarProvider } from "@/contexts/SidebarContext";
 import { AlertProvider } from "@/contexts/AlertContext";
 import Layout from "./(grouped)/layout";
 import UserProvider from "@/contexts/UserContext";
+import { Suspense } from "react";
+import Loading from "@/components/Loading";
 export default function RootLayout({
   children,
 }: {
@@ -17,7 +19,9 @@ export default function RootLayout({
           <AlertProvider>
             <SidebarProvider>
               <UserProvider>
-                <Layout>{children}</Layout>
+                <Layout>
+                  <Suspense fallback={<Loading />}>{children}</Suspense>
+                </Layout>
               </UserProvider>
             </SidebarProvider>
           </AlertProvider>
