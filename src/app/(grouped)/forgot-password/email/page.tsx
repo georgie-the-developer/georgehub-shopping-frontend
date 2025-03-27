@@ -27,7 +27,7 @@ export default function Page() {
     let email = e.target["email"].value;
     startTransition(async () => {
       try {
-        let success = requestConfirmCode(e.target["email"].value);
+        let success = await requestConfirmCode(e.target["email"].value);
         if (success) {
           window.location.href = `/forgot-password/change-password?${params.toString()}`;
         } else {

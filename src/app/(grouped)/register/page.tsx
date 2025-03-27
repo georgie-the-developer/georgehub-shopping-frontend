@@ -28,7 +28,7 @@ export default function Page() {
     }
     startTransition(async () => {
       try {
-        let success = requestConfirmCode(e.target["email"].value);
+        let success = await requestConfirmCode(e.target["email"].value);
         if (success) {
           window.location.href = `/register/confirm?${params.toString()}`;
         } else {
