@@ -6,11 +6,9 @@ import ButtonLink from "@/components/buttons/ButtonLink";
 import { useTransition } from "react";
 // Contexts
 import { useAlert } from "@/contexts/AlertContext";
-// Config
-import config from "config.json";
+import { requestConfirmCode } from "@/helpers/request-confirmation-code";
 // Helpers
 import { useLimitAccessByRole } from "@/helpers/auth-middleware";
-import { getCookie } from "@/helpers/cookies";
 // Styling
 import forgotPassword from "@/styles/modules/login.module.scss";
 
@@ -18,20 +16,6 @@ export default function Page() {
   useLimitAccessByRole(["guest"]);
   const { showAlert } = useAlert();
   const [isPending, startTransition] = useTransition();
-  const requestConfirmCode = async (email: string) => {
-    let url = config.API_URL + "auth/confirmation-code";
-    let csrf_token = getCookie("csrf_token");
-    let res = await fetch(url, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "X-CSRFToken": csrf_token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: email }),
-    });
-    let data = await res.json();
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -43,8 +27,12 @@ export default function Page() {
     let email = e.target["email"].value;
     startTransition(async () => {
       try {
-        requestConfirmCode(email);
-        window.location.href = `/forgot-password/change-password?${params.toString()}`;
+        let success = requestConfirmCode(e.target["email"].value);
+        if (success) {
+          window.location.href = `/forgot-password/change-password?${params.toString()}`;
+        } else {
+          showAlert("Error sending confirmation code");
+        }
       } catch (e) {
         console.log(e);
         showAlert(
