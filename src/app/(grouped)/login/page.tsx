@@ -52,7 +52,9 @@ export default function Page() {
         }
       } catch (e) {
         console.log(e);
-        showAlert("Fetch error");
+        showAlert(
+          "Fetch error. If the issue persists, enable third-party cookies for this website"
+        );
       }
     });
   };

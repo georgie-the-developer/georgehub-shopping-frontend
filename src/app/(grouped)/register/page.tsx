@@ -46,7 +46,9 @@ export default function Page() {
         window.location.href = `/register/confirm?${params.toString()}`;
       } catch (e) {
         console.log(e);
-        showAlert("Fetch error");
+        showAlert(
+          "Fetch error. If the issue persists, enable third-party cookies for this website"
+        );
       }
     });
   };
