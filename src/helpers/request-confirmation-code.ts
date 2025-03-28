@@ -16,5 +16,4 @@ export const requestConfirmCode = async (email: string) => {
   });
   console.log(await res.json());
   return res.ok;
-  return false;
 };
