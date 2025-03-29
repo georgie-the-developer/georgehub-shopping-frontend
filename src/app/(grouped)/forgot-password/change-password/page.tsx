@@ -7,14 +7,16 @@ import ButtonForm from "@/components/buttons/ButtonForm";
 import { useTransition } from "react";
 // Contexts
 import { useAlert } from "@/contexts/AlertContext";
+// Navigation
+import { redirect, useSearchParams } from "next/navigation";
 // Config
 import config from "config.json";
 // Helpers
 import { useLimitAccessByRole } from "@/helpers/auth-middleware";
 import { getCookie } from "@/helpers/cookies";
+import { requestConfirmCode } from "@/helpers/request-confirmation-code";
 // Styling
 import forgotPassword from "@/styles/modules/login.module.scss";
-import { redirect, useSearchParams } from "next/navigation";
 
 export default function Page() {
   useLimitAccessByRole(["guest"]);
@@ -57,6 +59,16 @@ export default function Page() {
       }
     });
   };
+  const handleResendCode = async () => {
+    const params = new URLSearchParams(window.location.search);
+    const email = Object.fromEntries(params).email;
+    if (!email) {
+      showAlert("No email specified. Go back and specify the email again");
+      return;
+    }
+    requestConfirmCode(email);
+    showAlert("Code has been sent");
+  };
   return (
     <div className={forgotPassword.container}>
       <div className={forgotPassword.heading}>Reset your password</div>
@@ -86,7 +98,7 @@ export default function Page() {
           <Form.FormSubmit value="Save" isPending={isPending} />
           <div className={forgotPassword.buttonFormContainer}>
             <div className={forgotPassword.buttonContainer}>
-              <ButtonForm action={() => alert("hi")} value="Resend code" />
+              <ButtonForm action={handleResendCode} value="Resend code" />
             </div>
           </div>
         </Form.Form>
