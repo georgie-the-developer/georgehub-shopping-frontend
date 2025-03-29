@@ -12,11 +12,12 @@ import { useUser } from "@/contexts/UserContext";
 import { redirect } from "next/navigation";
 // Helpers
 import { useLimitAccessByRole } from "@/helpers/auth-middleware";
+import { getCookie } from "@/helpers/cookies";
+import { requestConfirmCode } from "@/helpers/request-confirmation-code";
 // Config
 import config from "config.json";
 // Styling
 import confirm from "@/styles/modules/login.module.scss";
-import { getCookie } from "@/helpers/cookies";
 
 export default function Page() {
   useLimitAccessByRole(["guest"]);
@@ -61,6 +62,16 @@ export default function Page() {
       }
     });
   };
+  const handleResendCode = async () => {
+    const params = new URLSearchParams(window.location.search);
+    const email = Object.fromEntries(params).email;
+    if (!email) {
+      showAlert("No email specified. Go back and specify the email again");
+      return;
+    }
+    requestConfirmCode(email);
+    showAlert("Code has been sent");
+  };
   return (
     <div className={confirm.container}>
       <div className={confirm.heading}>Help us beat scammers</div>
@@ -78,7 +89,7 @@ export default function Page() {
           <Form.FormSubmit value="Submit" isPending={isPending} />
           <div className={confirm.buttonFormContainer}>
             <div className={confirm.buttonContainer}>
-              <ButtonForm action={() => alert("hi")} value="Resend code" />
+              <ButtonForm action={handleResendCode} value="Resend code" />
             </div>
           </div>
         </Form.Form>
