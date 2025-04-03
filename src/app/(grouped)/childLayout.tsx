@@ -6,7 +6,7 @@ import Sidebar from "@/components/Sidebar";
 import Alert from "@/components/Alert";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useSidebar } from "@/contexts/SidebarContext";
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function ChildLayout({ children }: { children: React.ReactNode }) {
   const { darkTheme } = useTheme();
   const { sidebarIsOpen, openSidebar, closeSidebar } = useSidebar();
   return (

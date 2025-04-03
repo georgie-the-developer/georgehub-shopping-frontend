@@ -3,7 +3,7 @@ import "@/styles/globals/index.scss";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { SidebarProvider } from "@/contexts/SidebarContext";
 import { AlertProvider } from "@/contexts/AlertContext";
-import Layout from "./(grouped)/layout";
+import ChildLayout from "./(grouped)/childLayout";
 import UserProvider from "@/contexts/UserContext";
 import { Suspense } from "react";
 import Loading from "@/components/Loading";
@@ -19,9 +19,9 @@ export default function RootLayout({
           <AlertProvider>
             <SidebarProvider>
               <UserProvider>
-                <Layout>
+                <ChildLayout>
                   <Suspense fallback={<Loading />}>{children}</Suspense>
-                </Layout>
+                </ChildLayout>
               </UserProvider>
             </SidebarProvider>
           </AlertProvider>
