@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useAlert } from "./AlertContext";
 import { getCookie, setCsrf } from "@/helpers/cookies";
-
+import Loading from "@/components/Loading";
 interface User {
   username?: string;
   email?: string;
@@ -29,7 +29,7 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export default function UserProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User>({ role: "guest" });
+  const [user, setUser] = useState<User>(null);
   const fetchUser = async () => {
     let url = config.API_URL + "auth/me";
     let res = await fetch(url, { credentials: "include" });
@@ -67,6 +67,9 @@ export default function UserProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     console.log(user);
   }, [user]);
+  if (user == null) {
+    return <Loading />;
+  }
   return (
     <UserContext.Provider value={{ user, login, logout }}>
       {children}
