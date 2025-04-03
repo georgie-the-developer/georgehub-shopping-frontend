@@ -32,8 +32,10 @@
         max-width: 100%;
       }
       .iconContainer {
+        &.hoverOnly {
+          display: none;
+        }
         overflow: hidden;
-        display: none;
         cursor: pointer;
         width: 24px;
         height: 24px;
