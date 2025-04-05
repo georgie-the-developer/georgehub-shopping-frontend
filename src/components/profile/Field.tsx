@@ -1,4 +1,5 @@
 import { useAlert } from "@/contexts/AlertContext";
+import { useProfileUpdate } from "@/contexts/ProfileUpdateContext";
 import profile from "@/styles/modules/profile.module.scss";
 import { useEffect, useId, useRef, useState } from "react";
 export default function Field({
@@ -17,6 +18,7 @@ export default function Field({
   patternMessage: string;
 }) {
   const { showAlert } = useAlert();
+  const { setChanges } = useProfileUpdate();
   const [value, setValue] = useState<string>(initialValue);
 
   type ValueState = "unchanged" | "isBeingEdited" | "changed";
@@ -56,6 +58,10 @@ export default function Field({
             if (value == initialValue) {
               setValueState("unchanged");
             } else {
+              setChanges((prev) => ({
+                ...prev,
+                [name]: value,
+              }));
               setValueState("changed");
             }
           } else {
@@ -66,6 +72,10 @@ export default function Field({
           // Reset changes
           setValue(initialValue);
           setValueState("unchanged");
+          setChanges((prev: { [key: string]: any }) => {
+            const { [name]: deleted, ...rest } = prev;
+            return rest;
+          });
           break;
         default:
           throw new Error(`Unknown valueState type: ${valueState}`);

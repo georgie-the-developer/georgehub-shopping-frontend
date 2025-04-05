@@ -6,6 +6,7 @@ import { AlertProvider } from "@/contexts/AlertContext";
 import ChildLayout from "./(grouped)/childLayout";
 import UserProvider from "@/contexts/UserContext";
 import { Suspense } from "react";
+import { ProfileUpdateProvider } from "@/contexts/ProfileUpdateContext";
 import Loading from "@/components/Loading";
 export default function RootLayout({
   children,
@@ -19,9 +20,11 @@ export default function RootLayout({
           <AlertProvider>
             <SidebarProvider>
               <UserProvider>
-                <ChildLayout>
-                  <Suspense fallback={<Loading />}>{children}</Suspense>
-                </ChildLayout>
+                <ProfileUpdateProvider>
+                  <ChildLayout>
+                    <Suspense fallback={<Loading />}>{children}</Suspense>
+                  </ChildLayout>
+                </ProfileUpdateProvider>
               </UserProvider>
             </SidebarProvider>
           </AlertProvider>
