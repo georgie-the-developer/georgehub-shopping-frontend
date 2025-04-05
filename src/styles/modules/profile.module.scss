@@ -8,7 +8,7 @@
     width: 100%;
     text-align: center;
     font-size: 36px;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
   }
   .fieldsContainer {
     width: 80%;
@@ -18,7 +18,7 @@
       display: flex;
       align-items: center;
       gap: 20px;
-      margin-bottom: 20px;
+      margin-top: 30px;
       white-space: nowrap;
       .fieldLabel {
         font-size: 24px;
@@ -30,6 +30,15 @@
         scrollbar-width: none;
         padding: 1%;
         max-width: 100%;
+      }
+      .fieldInput {
+        color: var(--primary-text-color);
+        background-color: var(--background-color);
+        padding: 5px;
+        border-radius: 7px;
+        border: 1px solid var(--primary-text-color);
+        font-size: 20px;
+        min-width: 50%;
       }
       .iconContainer {
         &.hoverOnly {
@@ -54,6 +63,10 @@
         gap: 5px;
         align-items: baseline;
       }
+    }
+    .fieldError {
+      margin-top: 20px;
+      color: var(--secondary-text-color);
     }
     @media screen and (max-width: 600px) {
       width: 95%;
