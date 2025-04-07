@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import Field from "@/components/profile/Field";
 import { useProfileUpdate } from "@/contexts/ProfileUpdateContext";
 import { useUser } from "@/contexts/UserContext";
@@ -9,13 +9,15 @@ import profile from "@/styles/modules/profile.module.scss";
 import { useAlert } from "@/contexts/AlertContext";
 import ButtonForm from "@/components/buttons/ButtonForm";
 import { requestConfirmCode } from "@/helpers/request-confirmation-code";
+import config from "config.json";
 
 export default function Page() {
   useLimitAccessByRole(["buyer", "seller"]);
-  const { user } = useUser();
-  const { isEdited, changes } = useProfileUpdate();
+  const { user, login } = useUser();
+  const { isEdited, changes, setChanges } = useProfileUpdate();
   const { showAlert } = useAlert();
   const [codeSent, setCodeSent] = useState<boolean>(false);
+  const [isPending, startTransition] = useTransition();
   useEffect(() => {
     if (Object.keys(changes).length === 0) {
       setCodeSent(false);
@@ -35,6 +37,43 @@ export default function Page() {
     }
 
     return result;
+  };
+  const handleProfileUpdateSubmit = async (e: React.FormEvent) => {
+    startTransition(async () => {
+      try {
+        e.preventDefault();
+        const confirm_code = e.target["confirm_code"].value;
+        const new_email_confirm_code =
+          e.target["new_email_confirm_code"].value || ""; // "" if email not updated
+        const data = {
+          ...changes,
+          confirmation_code: confirm_code,
+          new_email_confirmation_code: new_email_confirm_code,
+        };
+        const url = config.API_URL + "auth/me";
+        const res = await fetch(url, {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const resJson = await res.json();
+        console.log(resJson);
+        if (!res.ok) {
+          showAlert("Your confirmation code might be invalid or expired");
+        } else {
+          showAlert("Profile updated successfully!");
+          setChanges({});
+          setCodeSent(false);
+          login();
+        }
+      } catch (e) {
+        showAlert("Fetch error");
+        console.error(e);
+      }
+    });
   };
   return (
     <div className={profile.container}>
@@ -118,43 +157,73 @@ export default function Page() {
             <>
               <form
                 className={profile.confirmContainer}
-                onSubmit={(e: React.FormEvent) => {
-                  e.preventDefault();
-                  alert(
-                    `${e.target["new_email_confirm_code"].value} ${e.target["confirm_code"].value}`
-                  );
-                }}
+                onSubmit={handleProfileUpdateSubmit}
               >
                 <input
                   type="number"
                   inputMode="numeric"
                   name="new_email_confirm_code"
                   placeholder="Confirmation code (new email)..."
+                  required
                 />
                 <input
                   type="number"
                   inputMode="numeric"
                   name="confirm_code"
-                  placeholder="Confirmation code (old email)..."
+                  placeholder="Confirmation code (current email)..."
+                  required
                 />
-                <input type="submit" value="Confirm changes" />
+                <div
+                  className={`${profile.submitContainer} ${
+                    isPending ? profile.pending : ""
+                  }`}
+                >
+                  <input
+                    type="submit"
+                    className={profile.submit}
+                    value="Confirm changes"
+                  />
+                  <div className={profile.spinnerContainer}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                    >
+                      {/* <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--> */}
+                      <path d="M222.7 32.1c5 16.9-4.6 34.8-21.5 39.8C121.8 95.6 64 169.1 64 256c0 106 86 192 192 192s192-86 192-192c0-86.9-57.8-160.4-137.1-184.1c-16.9-5-26.6-22.9-21.5-39.8s22.9-26.6 39.8-21.5C434.9 42.1 512 140 512 256c0 141.4-114.6 256-256 256S0 397.4 0 256C0 140 77.1 42.1 182.9 10.6c16.9-5 34.8 4.6 39.8 21.5z" />
+                    </svg>
+                  </div>
+                </div>
               </form>
             </>
           ) : (
             <form
               className={profile.confirmContainer}
-              onSubmit={(e: React.FormEvent) => {
-                e.preventDefault();
-                alert(`${e.target["confirm_code"].value}`);
-              }}
+              onSubmit={handleProfileUpdateSubmit}
             >
               <input
                 type="number"
                 name="confirm_code"
                 inputMode="numeric"
                 placeholder="Confirmation code..."
+                required
               />
-              <input type="submit" value="Confirm changes" />
+              <div
+                className={`${profile.submitContainer} ${
+                  isPending ? profile.pending : ""
+                }`}
+              >
+                <input
+                  type="submit"
+                  className={profile.submit}
+                  value="Confirm changes"
+                />
+                <div className={profile.spinnerContainer}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    {/* <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--> */}
+                    <path d="M222.7 32.1c5 16.9-4.6 34.8-21.5 39.8C121.8 95.6 64 169.1 64 256c0 106 86 192 192 192s192-86 192-192c0-86.9-57.8-160.4-137.1-184.1c-16.9-5-26.6-22.9-21.5-39.8s22.9-26.6 39.8-21.5C434.9 42.1 512 140 512 256c0 141.4-114.6 256-256 256S0 397.4 0 256C0 140 77.1 42.1 182.9 10.6c16.9-5 34.8 4.6 39.8 21.5z" />
+                  </svg>
+                </div>
+              </div>
             </form>
           )
         ) : (
