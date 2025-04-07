@@ -8,6 +8,7 @@ import { ucfirst } from "@/helpers/string-functions";
 import profile from "@/styles/modules/profile.module.scss";
 import { useAlert } from "@/contexts/AlertContext";
 import ButtonForm from "@/components/buttons/ButtonForm";
+import { requestConfirmCode } from "@/helpers/request-confirmation-code";
 
 export default function Page() {
   useLimitAccessByRole(["buyer", "seller"]);
@@ -24,10 +25,10 @@ export default function Page() {
   const sendConfirmationCode = async () => {
     let result: boolean;
 
-    const oldEmailCodeResult = true;
+    const oldEmailCodeResult = await requestConfirmCode(user.email);
 
     if (changes["email"]) {
-      const newEmailCodeResult = true;
+      const newEmailCodeResult = await requestConfirmCode(changes["email"]);
       result = oldEmailCodeResult && newEmailCodeResult;
     } else {
       result = oldEmailCodeResult;
