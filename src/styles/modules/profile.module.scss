@@ -164,5 +164,20 @@
         }
       }
     }
+    .actionsContainer {
+      margin-top: 40px;
+      .description {
+        font-size: 24px;
+      }
+      .buttonLinkContainer {
+        margin-top: 30px;
+        a {
+          height: auto;
+          font-size: 20px;
+          padding: 10px 0;
+          width: 200px;
+        }
+      }
+    }
   }
 }

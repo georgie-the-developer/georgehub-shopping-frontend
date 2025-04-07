@@ -8,6 +8,7 @@ import { ucfirst } from "@/helpers/string-functions";
 import profile from "@/styles/modules/profile.module.scss";
 import { useAlert } from "@/contexts/AlertContext";
 import ButtonForm from "@/components/buttons/ButtonForm";
+import ButtonLink from "@/components/buttons/ButtonLink";
 import { requestConfirmCode } from "@/helpers/request-confirmation-code";
 import config from "config.json";
 
@@ -229,6 +230,16 @@ export default function Page() {
         ) : (
           ""
         )}
+        <div className={profile.actionsContainer}>
+          <div className={profile.description}>Other actions:</div>
+          <div className={profile.buttonLinkContainer}>
+            <ButtonLink
+              link="/upgrade-to-seller"
+              text="Update to seller"
+              type="secondary"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
