@@ -1,5 +1,6 @@
 import { useAlert } from "@/contexts/AlertContext";
 import { useProfileUpdate } from "@/contexts/ProfileUpdateContext";
+import { useUser } from "@/contexts/UserContext";
 import profile from "@/styles/modules/profile.module.scss";
 import { useEffect, useId, useRef, useState } from "react";
 export default function Field({
@@ -20,7 +21,7 @@ export default function Field({
   const { showAlert } = useAlert();
   const { setChanges } = useProfileUpdate();
   const [value, setValue] = useState<string>(initialValue);
-
+  const { user } = useUser();
   type ValueState = "unchanged" | "isBeingEdited" | "changed";
   const [valueState, setValueState] = useState<ValueState>("unchanged");
   const [error, setError] = useState("");
@@ -41,7 +42,11 @@ export default function Field({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [valueState]);
-
+  useEffect(() => {
+    if (user[name] == value) {
+      setValueState("unchanged");
+    }
+  }, [user]);
   const handleIconClick = (e: React.MouseEvent) => {
     // Must be executed only when icon container is clicked
     try {
