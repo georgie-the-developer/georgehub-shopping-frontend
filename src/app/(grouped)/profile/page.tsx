@@ -1,17 +1,44 @@
 "use client";
+import { useEffect, useState } from "react";
 import Field from "@/components/profile/Field";
+import { useProfileUpdate } from "@/contexts/ProfileUpdateContext";
 import { useUser } from "@/contexts/UserContext";
 import { useLimitAccessByRole } from "@/helpers/auth-middleware";
 import { ucfirst } from "@/helpers/string-functions";
 import profile from "@/styles/modules/profile.module.scss";
+import { useAlert } from "@/contexts/AlertContext";
+import ButtonForm from "@/components/buttons/ButtonForm";
+
 export default function Page() {
   useLimitAccessByRole(["buyer", "seller"]);
   const { user } = useUser();
+  const { isEdited, changes } = useProfileUpdate();
+  const { showAlert } = useAlert();
+  const [codeSent, setCodeSent] = useState<boolean>(false);
+  useEffect(() => {
+    if (Object.keys(changes).length === 0) {
+      setCodeSent(false);
+    }
+  }, [changes]);
 
+  const sendConfirmationCode = async () => {
+    let result: boolean;
+
+    const oldEmailCodeResult = true;
+
+    if (changes["email"]) {
+      const newEmailCodeResult = true;
+      result = oldEmailCodeResult && newEmailCodeResult;
+    } else {
+      result = oldEmailCodeResult;
+    }
+
+    return result;
+  };
   return (
     <div className={profile.container}>
       <div className={profile.heading}>Your profile</div>
-      <form className={profile.fieldsContainer}>
+      <div className={profile.fieldsContainer}>
         <Field
           label="Email:"
           initialValue={user.email}
@@ -67,7 +94,72 @@ export default function Page() {
           patternMessage=""
           // type not needed as the field is read-only
         />
-      </form>
+        {isEdited && !codeSent ? (
+          <div className={profile.buttonFormContainer}>
+            <ButtonForm
+              value="Send confirm code"
+              action={async () => {
+                const result: boolean = await sendConfirmationCode();
+                if (!result) {
+                  showAlert("Code sending failed");
+                } else {
+                  showAlert("Confirmation code sent successfully");
+                }
+                setCodeSent(result);
+              }}
+            />
+          </div>
+        ) : (
+          ""
+        )}
+        {isEdited && codeSent ? (
+          changes["email"] ? (
+            <>
+              <form
+                className={profile.confirmContainer}
+                onSubmit={(e: React.FormEvent) => {
+                  e.preventDefault();
+                  alert(
+                    `${e.target["new_email_confirm_code"].value} ${e.target["confirm_code"].value}`
+                  );
+                }}
+              >
+                <input
+                  type="number"
+                  inputMode="numeric"
+                  name="new_email_confirm_code"
+                  placeholder="Confirmation code (new email)..."
+                />
+                <input
+                  type="number"
+                  inputMode="numeric"
+                  name="confirm_code"
+                  placeholder="Confirmation code (old email)..."
+                />
+                <input type="submit" value="Confirm changes" />
+              </form>
+            </>
+          ) : (
+            <form
+              className={profile.confirmContainer}
+              onSubmit={(e: React.FormEvent) => {
+                e.preventDefault();
+                alert(`${e.target["confirm_code"].value}`);
+              }}
+            >
+              <input
+                type="number"
+                name="confirm_code"
+                inputMode="numeric"
+                placeholder="Confirmation code..."
+              />
+              <input type="submit" value="Confirm changes" />
+            </form>
+          )
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 }
