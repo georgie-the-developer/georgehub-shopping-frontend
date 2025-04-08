@@ -126,15 +126,22 @@ export default function Page() {
         ) : (
           ""
         )}
-        <Field
-          label="Status:"
-          initialValue={ucfirst(user.role)}
-          name="role"
-          editable={false}
-          pattern=""
-          patternMessage=""
-          // type not needed as the field is read-only
-        />
+        <div className={profile.roleContainer}>
+          <Field
+            label="Status:"
+            initialValue={ucfirst(user.role)}
+            name="role"
+            editable={false}
+            pattern=""
+            patternMessage=""
+            // type not needed as the field is read-only
+          />
+          <ButtonLink
+            link="/upgrade-to-seller"
+            text="Update to seller"
+            type="secondary"
+          />
+        </div>
         {isEdited && !codeSent ? (
           <div className={profile.buttonFormContainer}>
             <ButtonForm
@@ -232,13 +239,6 @@ export default function Page() {
         )}
         <div className={profile.actionsContainer}>
           <div className={profile.description}>Other actions:</div>
-          <div className={profile.buttonLinkContainer}>
-            <ButtonLink
-              link="/upgrade-to-seller"
-              text="Update to seller"
-              type="secondary"
-            />
-          </div>
         </div>
       </div>
     </div>

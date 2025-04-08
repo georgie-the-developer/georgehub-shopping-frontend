@@ -164,6 +164,19 @@
         }
       }
     }
+    .roleContainer {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      a {
+        margin-top: 30px;
+        height: auto;
+        font-size: 20px;
+        padding: 0;
+        width: 180px;
+        height: 45px;
+      }
+    }
     .actionsContainer {
       margin-top: 40px;
       .description {
