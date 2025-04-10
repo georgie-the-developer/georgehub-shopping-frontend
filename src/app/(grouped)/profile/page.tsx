@@ -203,11 +203,15 @@ export default function Page() {
             patternMessage=""
             // type not needed as the field is read-only
           />
-          <ButtonLink
-            link="/upgrade-to-seller"
-            text="Update to seller"
-            type="secondary"
-          />
+          {user.role == "buyer" ? (
+            <ButtonLink
+              link="/upgrade-to-seller"
+              text="Update to seller"
+              type="secondary"
+            />
+          ) : (
+            ""
+          )}
         </div>
         {isEdited && !codeSent ? (
           <div className={profile.buttonFormContainer}>
