@@ -15,12 +15,14 @@ import * as Form from "@/components/form/Form";
 import ModalWindow from "@/components/ModalWindow";
 export default function Page() {
   useLimitAccessByRole(["buyer", "seller"]);
-  const { user, login } = useUser();
+  const { user, login, logout } = useUser();
   const { isEdited, changes, setChanges } = useProfileUpdate();
   const { showAlert } = useAlert();
   const [codeSent, setCodeSent] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
   const [passwordFieldOpen, setPasswordFieldOpen] = useState<boolean>(false);
+  const [confirmDeleteFieldOpen, setConfirmDeleteFieldOpen] =
+    useState<boolean>(false);
   useEffect(() => {
     if (Object.keys(changes).length === 0) {
       setCodeSent(false);
@@ -99,6 +101,35 @@ export default function Page() {
     });
     return res.ok;
   };
+
+  // Account deletion
+  const handleDeleteAccountSubmit = async (e: React.FormEvent) => {
+    startTransition(async () => {
+      e.preventDefault();
+      const result = await fetchDeleteAccount(e.target["confirm_code"].value);
+      if (!result) {
+        showAlert("Failed to delete account");
+      } else {
+        showAlert("Account deleted successfully");
+        logout();
+        window.location.href = "/welcome";
+      }
+      setConfirmDeleteFieldOpen(false);
+    });
+  };
+  const fetchDeleteAccount = async (confirmCode: string) => {
+    const url = config.API_URL + "auth/delete-account";
+    const res = await fetch(url, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ confirmation_code: confirmCode }),
+    });
+    return res.ok;
+  };
+
   return (
     <div className={profile.container}>
       <div className={profile.heading}>Your profile</div>
@@ -343,6 +374,49 @@ export default function Page() {
                 </div>
               </>
             )}
+          </div>
+          <div className={profile.deleteAccountContainer}>
+            {confirmDeleteFieldOpen ? (
+              <ModalWindow>
+                <Form.Form handleSubmit={handleDeleteAccountSubmit}>
+                  <div className={profile.formInputContainer}>
+                    <Form.FormInput
+                      type="number"
+                      name="confirm_code"
+                      label="Confirmation code"
+                      placeholder="Enter confirm code..."
+                      pattern="^.{6}$"
+                      patternMessage="Confirmation code should be exactly 6 characters long"
+                      required={true}
+                    />
+                  </div>
+                  <div className={profile.submitContainer}>
+                    <ButtonForm
+                      action={() => setConfirmDeleteFieldOpen(false)}
+                      value="Cancel"
+                    />
+                    <Form.FormSubmit value="Confirm" />
+                  </div>
+                </Form.Form>
+              </ModalWindow>
+            ) : (
+              ""
+            )}
+
+            <div className={profile.deleteAccountButtonContainer}>
+              <ButtonForm
+                action={async () => {
+                  const result = await sendConfirmationCode();
+                  if (result) {
+                    showAlert("Confirmation code sent successfully");
+                  } else {
+                    showAlert("Failed to send confirmation code");
+                  }
+                  setConfirmDeleteFieldOpen(result);
+                }}
+                value="Delete account"
+              />
+            </div>
           </div>
         </div>
       </div>

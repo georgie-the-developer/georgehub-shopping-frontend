@@ -178,9 +178,25 @@
       }
     }
     .actionsContainer {
-      margin-top: 40px;
+      margin: 40px 0;
       .description {
         font-size: 24px;
+      }
+      .submitContainer {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        div {
+          width: 150px;
+          margin: 0;
+          input[type="button"] {
+            padding: 7px;
+            font-size: 24px;
+          }
+          input[type="submit"] {
+            padding: 2px 0;
+          }
+        }
       }
       .changePasswordContainer {
         margin-top: 30px;
@@ -230,21 +246,47 @@
               max-width: 200px;
             }
           }
-          .submitContainer {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
+        }
+      }
+      .deleteAccountContainer {
+        .deleteAccountButtonContainer {
+          margin-top: 30px;
+          div {
+            width: 200px;
+            input[type="button"] {
+              height: auto;
+              font-size: 20px;
+              padding: 10px 0;
+            }
+          }
+        }
+        form {
+          border: none;
+          padding: 20px 10px;
+          margin: 0;
+          width: 350px;
+          display: flex;
+          align-items: baseline;
+          gap: 20px;
+          .formInputContainer {
+            min-width: 100%;
+            max-width: 100%;
             div {
-              width: 150px;
-              margin: 0;
-              input[type="button"] {
-                padding: 7px;
-                font-size: 24px;
+              width: 100%;
+              gap: 10px;
+              input[type="password"],
+              input[type="number"] {
+                min-width: 100%;
+                margin: 0;
               }
-              input[type="submit"] {
-                padding: 2px 0;
+              div {
+                max-width: 100%;
               }
             }
+          }
+          input[type="submit"] {
+            height: 100%;
+            font-size: 24px;
           }
         }
       }
