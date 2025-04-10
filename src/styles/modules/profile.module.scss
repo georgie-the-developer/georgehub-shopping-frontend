@@ -182,13 +182,70 @@
       .description {
         font-size: 24px;
       }
-      .buttonLinkContainer {
+      .changePasswordContainer {
         margin-top: 30px;
-        a {
-          height: auto;
-          font-size: 20px;
-          padding: 10px 0;
-          width: 200px;
+        .changePasswordButtonContainer {
+          div {
+            width: 200px;
+            input[type="button"] {
+              height: auto;
+              font-size: 20px;
+              padding: 10px 0;
+            }
+          }
+        }
+        form {
+          // reset some styles and add custom ones
+          border: none;
+          padding: 20px 10px;
+          margin: 0;
+          width: 350px;
+          display: flex;
+          align-items: baseline;
+          gap: 20px;
+          .formInputContainer {
+            min-width: 100%;
+            max-width: 100%;
+            div {
+              gap: 0;
+              width: 100%;
+              input[type="password"],
+              input[type="number"] {
+                min-width: 100%;
+                margin-bottom: 10px;
+              }
+              div {
+                max-width: 100%;
+              }
+            }
+          }
+          .confirmCodeContainer {
+            display: flex;
+            align-items: flex-end;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            margin: 0;
+            input[type="button"] {
+              max-width: 200px;
+            }
+          }
+          .submitContainer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            div {
+              width: 150px;
+              margin: 0;
+              input[type="button"] {
+                padding: 7px;
+                font-size: 24px;
+              }
+              input[type="submit"] {
+                padding: 2px 0;
+              }
+            }
+          }
         }
       }
     }

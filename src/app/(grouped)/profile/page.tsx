@@ -11,7 +11,8 @@ import ButtonForm from "@/components/buttons/ButtonForm";
 import ButtonLink from "@/components/buttons/ButtonLink";
 import { requestConfirmCode } from "@/helpers/request-confirmation-code";
 import config from "config.json";
-
+import * as Form from "@/components/form/Form";
+import ModalWindow from "@/components/ModalWindow";
 export default function Page() {
   useLimitAccessByRole(["buyer", "seller"]);
   const { user, login } = useUser();
@@ -19,6 +20,7 @@ export default function Page() {
   const { showAlert } = useAlert();
   const [codeSent, setCodeSent] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
+  const [passwordFieldOpen, setPasswordFieldOpen] = useState<boolean>(false);
   useEffect(() => {
     if (Object.keys(changes).length === 0) {
       setCodeSent(false);
@@ -75,6 +77,27 @@ export default function Page() {
         console.error(e);
       }
     });
+  };
+  const changePassword = async (
+    email: string,
+    newPassword: string,
+    confirmCode: string
+  ) => {
+    const data = {
+      email: email,
+      confirmation_code: confirmCode,
+      new_password: newPassword,
+    };
+    let url = config.API_URL + "auth/reset-password";
+    let res = await fetch(url, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    return res.ok;
   };
   return (
     <div className={profile.container}>
@@ -239,6 +262,88 @@ export default function Page() {
         )}
         <div className={profile.actionsContainer}>
           <div className={profile.description}>Other actions:</div>
+          <div className={profile.changePasswordContainer}>
+            {passwordFieldOpen ? (
+              <ModalWindow>
+                <Form.Form
+                  handleSubmit={async (e) => {
+                    e.preventDefault();
+                    setPasswordFieldOpen(false);
+                    const result = await changePassword(
+                      user.email,
+                      e.target["new_password"].value,
+                      e.target["confirm_code"].value
+                    );
+                    if (!result) {
+                      showAlert("Something went wrong with password change");
+                    } else {
+                      showAlert("Password changed successfully");
+                    }
+                  }}
+                >
+                  <div className={profile.confirmCodeContainer}>
+                    <div className={profile.formInputContainer}>
+                      <Form.FormInput
+                        type="number"
+                        name="confirm_code"
+                        label=""
+                        placeholder="Enter confirmation code"
+                        pattern="^.{6}$"
+                        patternMessage="Confrim code should be 6 characters long"
+                        required={true}
+                      />
+                    </div>
+                    <ButtonForm
+                      action={async () => {
+                        const result = await sendConfirmationCode();
+                        if (result) {
+                          showAlert("Confirmation code resent successfully");
+                        } else {
+                          showAlert("Failed to resend confirmation code");
+                        }
+                      }}
+                      value="Resend code"
+                    />
+                  </div>
+                  <div className={profile.formInputContainer}>
+                    <Form.FormInput
+                      type="password"
+                      name="new_password"
+                      label=""
+                      placeholder="Create a new password"
+                      pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[^\s]{8,}$"
+                      patternMessage="Password should be at least 8 characters long, include at least one digit, one lowercase, and one uppercase letter, and must not contain any whitespaces."
+                      required={true}
+                    />
+                  </div>
+                  <div className={profile.submitContainer}>
+                    <ButtonForm
+                      action={() => setPasswordFieldOpen(false)}
+                      value="Cancel"
+                    />
+                    <Form.FormSubmit value="Save" />
+                  </div>
+                </Form.Form>
+              </ModalWindow>
+            ) : (
+              <>
+                <div className={profile.changePasswordButtonContainer}>
+                  <ButtonForm
+                    action={async () => {
+                      const result = await sendConfirmationCode();
+                      if (result) {
+                        showAlert("Confirmation code sent successfully");
+                      } else {
+                        showAlert("Failed to send confirmation code");
+                      }
+                      setPasswordFieldOpen(result);
+                    }}
+                    value="Change password"
+                  />
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
