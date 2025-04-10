@@ -412,7 +412,7 @@ export default function Page() {
                       action={() => setConfirmDeleteFieldOpen(false)}
                       value="Cancel"
                     />
-                    <Form.FormSubmit value="Confirm" />
+                    <Form.FormSubmit value="Confirm" isPending={isPending} />
                   </div>
                 </Form.Form>
               </ModalWindow>
