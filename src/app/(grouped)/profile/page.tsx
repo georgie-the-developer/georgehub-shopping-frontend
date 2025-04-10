@@ -29,6 +29,7 @@ export default function Page() {
     }
   }, [changes]);
 
+  // a function that simplyfies the confirm code sending, an additional level of abstraction
   const sendConfirmationCode = async () => {
     let result: boolean;
 
@@ -43,30 +44,21 @@ export default function Page() {
 
     return result;
   };
+
+  // Handle profile updates (not including user's password)
   const handleProfileUpdateSubmit = async (e: React.FormEvent) => {
     startTransition(async () => {
       try {
         e.preventDefault();
-        const confirm_code = e.target["confirm_code"].value;
-        const new_email_confirm_code =
+        const confirmCode = e.target["confirm_code"].value;
+        const newEmailConfirmCode =
           e.target["new_email_confirm_code"].value || ""; // "" if email not updated
-        const data = {
-          ...changes,
-          confirmation_code: confirm_code,
-          new_email_confirmation_code: new_email_confirm_code,
-        };
-        const url = config.API_URL + "auth/me";
-        const res = await fetch(url, {
-          method: "PUT",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-        const resJson = await res.json();
-        console.log(resJson);
-        if (!res.ok) {
+        const result = await fetchUptadeProfile(
+          confirmCode,
+          newEmailConfirmCode,
+          changes
+        );
+        if (!result) {
           showAlert("Your confirmation code might be invalid or expired");
         } else {
           showAlert("Profile updated successfully!");
@@ -80,7 +72,44 @@ export default function Page() {
       }
     });
   };
-  const changePassword = async (
+  const fetchUptadeProfile = async (
+    confirmCode: string,
+    newEmailConfirmCode: string,
+    changes: {}
+  ) => {
+    const data = {
+      ...changes,
+      confirmation_code: confirmCode,
+      new_email_confirmation_code: newEmailConfirmCode,
+    };
+    const url = config.API_URL + "auth/me";
+    const res = await fetch(url, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    return res.ok;
+  };
+
+  // Password changing
+  const handleChangePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordFieldOpen(false);
+    const result = await fetchChangePassword(
+      user.email,
+      e.target["new_password"].value,
+      e.target["confirm_code"].value
+    );
+    if (!result) {
+      showAlert("Something went wrong with password change");
+    } else {
+      showAlert("Password changed successfully");
+    }
+  };
+  const fetchChangePassword = async (
     email: string,
     newPassword: string,
     confirmCode: string
@@ -313,22 +342,7 @@ export default function Page() {
           <div className={profile.changePasswordContainer}>
             {passwordFieldOpen ? (
               <ModalWindow>
-                <Form.Form
-                  handleSubmit={async (e) => {
-                    e.preventDefault();
-                    setPasswordFieldOpen(false);
-                    const result = await changePassword(
-                      user.email,
-                      e.target["new_password"].value,
-                      e.target["confirm_code"].value
-                    );
-                    if (!result) {
-                      showAlert("Something went wrong with password change");
-                    } else {
-                      showAlert("Password changed successfully");
-                    }
-                  }}
-                >
+                <Form.Form handleSubmit={handleChangePasswordSubmit}>
                   <div className={profile.confirmCodeContainer}>
                     <div className={profile.formInputContainer}>
                       <Form.FormInput
