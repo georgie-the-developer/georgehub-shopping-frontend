@@ -39,3 +39,6 @@ jspm_packages
 
 # Internal files (e.g. notes, todos etc)
 internal
+
+# Config file
+src/config.json
