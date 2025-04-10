@@ -142,6 +142,19 @@ export default function Page() {
           pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
           patternMessage="The entry should folow the email pattern."
         />
+        {user.role == "seller" ? (
+          <Field
+            label="Support email:"
+            initialValue={user.support_email}
+            name="support_email"
+            editable={true}
+            pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+            patternMessage="The entry should folow the email pattern."
+          />
+        ) : (
+          ""
+        )}
+
         <Field
           label="Username:"
           initialValue={user.username}
