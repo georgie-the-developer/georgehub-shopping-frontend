@@ -3,10 +3,8 @@ import upgradeToSeller from "@/styles/modules/login.module.scss";
 import * as Form from "@/components/form/Form";
 import { useAlert } from "@/contexts/AlertContext";
 import { useUser } from "@/contexts/UserContext";
-import { redirect } from "next/navigation";
 import { useTransition } from "react";
 import { requestConfirmCode } from "@/helpers/request-confirmation-code";
-import config from "config.json";
 
 export default function Page() {
   const { showAlert } = useAlert();
