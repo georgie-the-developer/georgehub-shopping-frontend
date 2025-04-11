@@ -3,6 +3,7 @@ import confirm from "@/styles/modules/login.module.scss";
 import * as Form from "@/components/form/Form";
 import { useLimitAccessByRole } from "@/helpers/auth-middleware";
 import ButtonForm from "@/components/buttons/ButtonForm";
+import ButtonLink from "@/components/buttons/ButtonLink";
 
 export default function Page() {
   useLimitAccessByRole(["buyer"]);
@@ -31,6 +32,10 @@ export default function Page() {
             </div>
           </div>
         </Form.Form>
+      </div>
+      <div className={confirm.textContainer}>Forgot something?</div>
+      <div className={confirm.buttonLinkContainer}>
+        <ButtonLink link="/upgrade-to-seller" text="Go Back" type="secondary" />
       </div>
     </div>
   );
