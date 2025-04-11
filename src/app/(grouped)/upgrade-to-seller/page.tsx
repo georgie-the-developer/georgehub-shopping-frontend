@@ -1,16 +1,42 @@
 "use client";
 import upgradeToSeller from "@/styles/modules/login.module.scss";
 import * as Form from "@/components/form/Form";
+import { useAlert } from "@/contexts/AlertContext";
+import { useUser } from "@/contexts/UserContext";
+import { redirect } from "next/navigation";
+import { useTransition } from "react";
+import { requestConfirmCode } from "@/helpers/request-confirmation-code";
+import config from "config.json";
+
 export default function Page() {
+  const { showAlert } = useAlert();
+  const { user } = useUser();
+  const [isPending, startTransition] = useTransition();
+  const handleUpgradeToSellerSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    startTransition(async () => {
+      const data = {
+        address: e.target["address"].value,
+        full_name: e.target["full_name"].value,
+        card_number: e.target["card_number"].value,
+        role: "seller",
+      };
+      console.log(data);
+      const result = await requestConfirmCode(user.email);
+      if (result) {
+        showAlert("Confrimation code sent successfully");
+        const searchParams = new URLSearchParams(data).toString();
+        window.location.href = `/upgrade-to-seller/confirm?${searchParams}`;
+      } else {
+        showAlert("Failed to send confirmation code");
+      }
+    });
+  };
   return (
     <div className={upgradeToSeller.container}>
       <div className={upgradeToSeller.heading}>Upgrade to seller</div>
       <div className={upgradeToSeller.formContainer}>
-        <Form.Form
-          handleSubmit={async (e) => {
-            e.preventDefault();
-          }}
-        >
+        <Form.Form handleSubmit={handleUpgradeToSellerSubmit}>
           <Form.FormInput
             type="text"
             name="address"
@@ -50,7 +76,7 @@ export default function Page() {
               <Form.FormLink title="Privacy policy" link="#" />
             </div>
           </div>
-          <Form.FormSubmit value="Upgrade to seller" />
+          <Form.FormSubmit value="Upgrade to seller" isPending={isPending} />
         </Form.Form>
       </div>
     </div>
