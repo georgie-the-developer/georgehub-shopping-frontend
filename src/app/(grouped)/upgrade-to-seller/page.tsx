@@ -40,7 +40,7 @@ export default function Page() {
         <Form.Form handleSubmit={handleUpgradeToSellerSubmit}>
           <Form.FormInput
             type="text"
-            name="email"
+            name="support_email"
             label="Support email"
             placeholder="Enter user support email"
             pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
