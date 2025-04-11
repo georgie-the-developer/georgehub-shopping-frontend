@@ -5,8 +5,10 @@ import { useAlert } from "@/contexts/AlertContext";
 import { useUser } from "@/contexts/UserContext";
 import { useTransition } from "react";
 import { requestConfirmCode } from "@/helpers/request-confirmation-code";
+import { useLimitAccessByRole } from "@/helpers/auth-middleware";
 
 export default function Page() {
+  useLimitAccessByRole(["buyer"]);
   const { showAlert } = useAlert();
   const { user } = useUser();
   const [isPending, startTransition] = useTransition();
