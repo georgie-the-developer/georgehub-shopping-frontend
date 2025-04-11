@@ -21,7 +21,7 @@ export default function SidebarLinks({ userRole }: SidebarLinkProps) {
           <NavLink title="Home" route="/home" />
           <NavLink title="Profile" route="/profile" />
           <NavLink title="Shopping cart" route="/cart" />
-          <NavLink title="Upgrade to seller" route="/upgrade_to_seller" />
+          <NavLink title="Upgrade to seller" route="/upgrade-to-seller" />
           <NavLink title="Notifications" route="/notifications" />
           <NavLink title="Logout" route="/logout" />
         </>
