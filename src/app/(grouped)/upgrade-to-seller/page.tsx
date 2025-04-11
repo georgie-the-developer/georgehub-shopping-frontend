@@ -30,7 +30,6 @@ export default function Page() {
       }
     });
   };
-
   return (
     <div className={upgradeToSeller.container}>
       <div className={upgradeToSeller.heading}>Upgrade to seller</div>
