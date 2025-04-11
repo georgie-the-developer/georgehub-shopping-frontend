@@ -388,23 +388,22 @@ export default function Page() {
                 </Form.Form>
               </ModalWindow>
             ) : (
-              <>
-                <div className={profile.changePasswordButtonContainer}>
-                  <ButtonForm
-                    action={async () => {
-                      const result = await sendConfirmationCode();
-                      if (result) {
-                        showAlert("Confirmation code sent successfully");
-                      } else {
-                        showAlert("Failed to send confirmation code");
-                      }
-                      setPasswordFieldOpen(result);
-                    }}
-                    value="Change password"
-                  />
-                </div>
-              </>
+              ""
             )}
+            <div className={profile.changePasswordButtonContainer}>
+              <ButtonForm
+                action={async () => {
+                  const result = await sendConfirmationCode();
+                  if (result) {
+                    showAlert("Confirmation code sent successfully");
+                  } else {
+                    showAlert("Failed to send confirmation code");
+                  }
+                  setPasswordFieldOpen(result);
+                }}
+                value="Change password"
+              />
+            </div>
           </div>
           <div className={profile.deleteAccountContainer}>
             {confirmDeleteFieldOpen ? (
