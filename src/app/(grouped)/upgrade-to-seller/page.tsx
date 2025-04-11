@@ -2,12 +2,13 @@
 import upgradeToSeller from "@/styles/modules/login.module.scss";
 import * as Form from "@/components/form/Form";
 import { useAlert } from "@/contexts/AlertContext";
-import { redirect } from "next/navigation";
+import { useUser } from "@/contexts/UserContext";
 import { useTransition } from "react";
-import config from "config.json";
+import { requestConfirmCode } from "@/helpers/request-confirmation-code";
 
 export default function Page() {
   const { showAlert } = useAlert();
+  const { user } = useUser();
   const [isPending, startTransition] = useTransition();
   const handleUpgradeToSellerSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,26 +20,17 @@ export default function Page() {
         role: "seller",
       };
       console.log(data);
-      const result = await fetchUpgradeToSeller(data);
-      if (!result) {
-        showAlert("Failed to upgrade to seller.");
+      const result = await requestConfirmCode(user.email);
+      if (result) {
+        showAlert("Confrimation code sent successfully");
+        const searchParams = new URLSearchParams(data).toString();
+        window.location.href = `/upgrade-to-seller/confirm?${searchParams}`;
       } else {
-        showAlert("Upgraded to seller successfully!");
+        showAlert("Failed to send confirmation code");
       }
     });
   };
-  const fetchUpgradeToSeller = async (data: object) => {
-    const url = config.API_URL + "auth/me";
-    const res = await fetch(url, {
-      method: "PUT",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    return res.ok;
-  };
+
   return (
     <div className={upgradeToSeller.container}>
       <div className={upgradeToSeller.heading}>Upgrade to seller</div>
