@@ -16,6 +16,7 @@ export default function Page() {
     e.preventDefault();
     startTransition(async () => {
       const data = {
+        support_email: e.target["support_email"].value,
         address: e.target["address"].value,
         full_name: e.target["full_name"].value,
         card_number: e.target["card_number"].value,
@@ -37,6 +38,15 @@ export default function Page() {
       <div className={upgradeToSeller.heading}>Upgrade to seller</div>
       <div className={upgradeToSeller.formContainer}>
         <Form.Form handleSubmit={handleUpgradeToSellerSubmit}>
+          <Form.FormInput
+            type="text"
+            name="email"
+            label="Support email"
+            placeholder="Enter user support email"
+            pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+            patternMessage="The entry should folow the email pattern."
+            required={true}
+          />
           <Form.FormInput
             type="text"
             name="address"
