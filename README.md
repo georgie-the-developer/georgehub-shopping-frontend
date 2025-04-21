@@ -6,7 +6,7 @@ Just review some of my code. You will see what I mean under "all skills showcase
 
 I do not plan to work on it further as I hope I will get a job soon.
 
-Edit: if You encounter some problems with the deployed app, e.g. it loads forever, this is not an application bug, this is a deployment problem as render.com makes websites inactive after some time, You have to wait for like 5 min, if nothing changed, then please contact me and I will fix that.
+Edit: if You encounter some problems with the deployed app, e.g. it loads forever, this is not an application bug, this is a deployment problem as render.com makes websites inactive after some time. You have to wait for like 5 min, if nothing changes, please contact me and I will fix that.
 
 <div align="right">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" height="40" alt="react logo"  />
