@@ -1,7 +1,8 @@
 # Shopping app mockup
 Check it out here: https://georgehub-shopping-frontend.onrender.com.
 
-This is a showcase of all of my previously gained skills. As of now, this is an authentication (not mockup but real manual authentication!) example only. 
+This is a showcase of all of my previously gained skills. As of now, this is an authentication (not mockup but real manual authentication!) example only. But it doesn't mean that there is nothing interesting in there.
+Just review some of my code. You will see what I mean under "all skills showcase".
 
 I do not plan to work on it further as I hope to get a job soon.
 
