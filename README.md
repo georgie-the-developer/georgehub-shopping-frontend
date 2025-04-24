@@ -1,4 +1,4 @@
-# Shopping app mockup
+# Shopping app (manual auth only)
 Check it out here: https://georgehub-shopping-frontend.onrender.com.
 
 This is a showcase of all of my previously gained skills. As of now, this is an authentication (not mockup but real manual authentication!) example only. But it does not mean that there is nothing interesting in there.
